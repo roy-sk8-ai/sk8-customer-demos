@@ -119,6 +119,15 @@ body {
   margin-bottom: var(--spacing-lg);
 }
 
+.sidebar-section.highlighted {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(99, 102, 241, 0.02) 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-sm);
+  margin-left: calc(-1 * var(--spacing-sm));
+  margin-right: calc(-1 * var(--spacing-sm));
+  border-left: 2px solid rgba(99, 102, 241, 0.3);
+}
+
 .sidebar-section-label {
   font-size: 11px;
   font-weight: 500;
