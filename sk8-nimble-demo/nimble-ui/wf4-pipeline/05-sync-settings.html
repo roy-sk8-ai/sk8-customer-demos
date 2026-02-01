@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Settings - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Main</div><ul class="sidebar-nav"><li><a href="#">Dashboard</a></li><li><a href="#">Pipelines</a></li><li><a href="#">Analytics</a></li><li><a href="#">Playground</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Data Delivery</div><ul class="sidebar-nav"><li><a href="../wf5-manage-connections/00-overview.html">Delivery Overview</a></li><li><a href="01-available-integrations.html" class="active">Add Destination</a></li><li><a href="../wf5-manage-connections/01-active-connections.html">Active Destinations</a></li><li><a href="../wf6-sync-history/01-sync-history.html">Delivery History</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Account</div><ul class="sidebar-nav"><li><a href="#">Pricing</a></li><li><a href="#" style="color: var(--text-muted);">Billing</a></li><li><a href="#">Account settings</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">System</div><ul class="sidebar-nav"><li><a href="#">Learning hub</a></li><li><a href="#">System status</a></li></ul></div>
+      <div class="sidebar-cta"><div class="sidebar-cta-sparkles">✦ ✦</div><div class="sidebar-cta-title">Talk to Sales</div><div class="sidebar-cta-decoration"></div></div>
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      </header>
+
+      <main class="main-content">
+        <div class="step-indicator">
+          <div class="step complete"></div>
+          <div class="step complete"></div>
+          <div class="step complete"></div>
+          <div class="step active"></div>
+          <div class="step"></div>
+          <span class="step-label">Step 4 of 5 - Delivery Settings</span>
+        </div>
+
+        <div class="content-header">
+          <h1 class="page-title">Configure Delivery Settings</h1>
+          <p class="page-subtitle">Set up how and when data is delivered to Snowflake</p>
+        </div>
+
+        <div class="card">
+          <!-- Delivery Frequency -->
+          <div class="section">
+            <h3 style="font-weight: 600; font-size: 16px; margin-bottom: var(--spacing-sm);">Delivery Frequency</h3>
+            <p class="text-sm text-muted mb-md">How often should new data be delivered?</p>
+
+            <div class="selection-list">
+              <label class="card selection-card" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="frequency">
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">Real-time Streaming</div>
+                  <div class="selection-meta">Data delivered as soon as it's collected (Snowpipe)</div>
+                </div>
+                <span class="badge badge-primary">Premium</span>
+              </label>
+
+              <label class="card selection-card selected" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="frequency" checked>
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">Hourly Batches</div>
+                  <div class="selection-meta">Data delivered every hour in batches</div>
+                </div>
+                <span class="badge badge-success">Recommended</span>
+              </label>
+
+              <label class="card selection-card" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="frequency">
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">Daily Batches</div>
+                  <div class="selection-meta">Data delivered once per day at a scheduled time</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Data Format -->
+          <div class="section">
+            <h3 style="font-weight: 600; font-size: 16px; margin-bottom: var(--spacing-sm);">Data Format</h3>
+            <p class="text-sm text-muted mb-md">Choose the format for data loading</p>
+
+            <div class="selection-list">
+              <label class="card selection-card selected" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="format" checked>
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">Parquet</div>
+                  <div class="selection-meta">Columnar format, best for analytics &bull; Compressed</div>
+                </div>
+                <span class="badge badge-success">Recommended</span>
+              </label>
+
+              <label class="card selection-card" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="format">
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">JSON (NDJSON)</div>
+                  <div class="selection-meta">Newline-delimited JSON, flexible schema</div>
+                </div>
+              </label>
+
+              <label class="card selection-card" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="format">
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">CSV</div>
+                  <div class="selection-meta">Comma-separated values, universal compatibility</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Deduplication -->
+          <div class="section" style="margin-bottom: 0;">
+            <h3 style="font-weight: 600; font-size: 16px; margin-bottom: var(--spacing-sm);">Deduplication</h3>
+            <p class="text-sm text-muted mb-md">How to handle duplicate records</p>
+
+            <div class="selection-list">
+              <label class="card selection-card selected" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="dedup" checked>
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">Upsert (Merge)</div>
+                  <div class="selection-meta">Update existing records, insert new ones</div>
+                </div>
+                <span class="badge badge-success">Recommended</span>
+              </label>
+
+              <label class="card selection-card" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
+                <input type="radio" name="dedup">
+                <div class="radio-indicator"></div>
+                <div class="selection-content">
+                  <div class="selection-title">Append Only</div>
+                  <div class="selection-meta">Always insert new records, keep history</div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-actions">
+          <a href="04-field-mapping.html" class="btn btn-ghost">&larr; Back</a>
+          <a href="06-review-activate.html" class="btn btn-primary">Continue &rarr;</a>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

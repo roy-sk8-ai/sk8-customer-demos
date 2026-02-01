@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Destination - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Main</div><ul class="sidebar-nav"><li><a href="#">Dashboard</a></li><li><a href="#">Pipelines</a></li><li><a href="#">Analytics</a></li><li><a href="#">Playground</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Data Delivery</div><ul class="sidebar-nav"><li><a href="00-overview.html">Delivery Overview</a></li><li><a href="../wf4-pipeline/01-available-integrations.html">Add Destination</a></li><li><a href="01-active-connections.html" class="active">Active Destinations</a></li><li><a href="../wf6-sync-history/01-sync-history.html">Delivery History</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Account</div><ul class="sidebar-nav"><li><a href="#">Pricing</a></li><li><a href="#" style="color: var(--text-muted);">Billing</a></li><li><a href="#">Account settings</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">System</div><ul class="sidebar-nav"><li><a href="#">Learning hub</a></li><li><a href="#">System status</a></li></ul></div>
+      <div class="sidebar-cta"><div class="sidebar-cta-sparkles">✦ ✦</div><div class="sidebar-cta-title">Talk to Sales</div><div class="sidebar-cta-decoration"></div></div>
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      </header>
+
+      <main class="main-content">
+      <!-- Breadcrumb -->
+      <div style="font-size: 13px; color: var(--charcoal-light); margin-bottom: var(--spacing-md);">
+        <a href="01-active-connections.html" style="color: var(--charcoal); text-decoration: underline;">Active Destinations</a>
+        <span> / </span>
+        <a href="02-connection-details.html" style="color: var(--charcoal); text-decoration: underline;">Snowflake Production</a>
+        <span> / </span>
+        <span>Edit</span>
+      </div>
+
+      <div class="content-header">
+        <h1 class="page-title">Edit Destination</h1>
+        <p class="page-subtitle">Modify your Snowflake delivery configuration</p>
+      </div>
+
+      <div class="card mb-lg">
+        <div class="flex items-center gap-md mb-lg">
+          <div style="width: 48px; height: 48px; background: var(--off-white); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+            <img src="../assets/logos/snowflake.svg" alt="Snowflake" width="28" height="28">
+          </div>
+          <div>
+            <div style="font-weight: 600;">Snowflake Production</div>
+            <div class="text-sm text-muted">Connected since Jan 15, 2024</div>
+          </div>
+          <span class="badge badge-success" style="margin-left: auto;">Active</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Connection Name</label>
+          <input type="text" class="form-input" value="Snowflake Production">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Account Identifier</label>
+          <input type="text" class="form-input" value="nimble-corp.us-east-1">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Warehouse</label>
+          <input type="text" class="form-input" value="NIMBLE_ETL_WH">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Database</label>
+          <input type="text" class="form-input" value="WEB_DATA">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Schema</label>
+          <input type="text" class="form-input" value="RAW_DATA">
+        </div>
+      </div>
+
+      <div class="card mb-lg">
+        <h3 style="font-weight: 600; margin-bottom: var(--spacing-md);">Delivery Settings</h3>
+
+        <div class="form-group">
+          <label class="form-label">Delivery Frequency</label>
+          <select class="form-input form-select">
+            <option value="realtime">Real-time Streaming</option>
+            <option value="hourly" selected>Hourly Batches</option>
+            <option value="daily">Daily Batches</option>
+            <option value="custom">Custom Schedule</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Data Format</label>
+          <select class="form-input form-select">
+            <option value="parquet" selected>Parquet</option>
+            <option value="json">JSON (NDJSON)</option>
+            <option value="csv">CSV</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Deduplication Mode</label>
+          <select class="form-input form-select">
+            <option value="upsert" selected>Upsert (Merge)</option>
+            <option value="append">Append Only</option>
+            <option value="replace">Replace</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="card" style="border-color: var(--error);">
+        <h3 style="font-weight: 600; color: var(--error); margin-bottom: var(--spacing-md);">Danger Zone</h3>
+        <p class="text-sm text-muted mb-md">These actions are irreversible. Please proceed with caution.</p>
+        <div class="flex gap-md">
+          <button class="btn btn-secondary">Pause Delivery</button>
+          <button class="btn" style="background: var(--error); color: white;">Delete Destination</button>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="footer-actions">
+        <a href="02-connection-details.html" class="btn btn-ghost">&larr; Cancel</a>
+        <div class="footer-actions-right">
+          <button class="btn btn-secondary">Test Connection</button>
+          <a href="02-connection-details.html" class="btn btn-primary">Save Changes</a>
+        </div>
+      </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

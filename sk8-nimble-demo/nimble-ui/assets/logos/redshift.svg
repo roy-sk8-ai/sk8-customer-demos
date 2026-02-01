@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <path d="M24 4L6 14v20l18 10 18-10V14L24 4z" fill="#205B97"/>
+  <path d="M24 4L6 14l18 10 18-10L24 4z" fill="#5294CF"/>
+  <path d="M24 24L6 14v20l18 10V24z" fill="#205B97"/>
+  <path d="M24 24l18-10v20L24 44V24z" fill="#2D72B8"/>
+  <polygon points="24,14 16,18 24,22 32,18" fill="#fff" fill-opacity="0.4"/>
+  <polygon points="24,22 16,26 24,30 32,26" fill="#fff" fill-opacity="0.3"/>
+  <polygon points="24,30 16,34 24,38 32,34" fill="#fff" fill-opacity="0.2"/>
+</svg>

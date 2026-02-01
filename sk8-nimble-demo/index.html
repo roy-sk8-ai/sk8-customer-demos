@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nimble Web Data - SK8 Demo</title>
+  <style>
+    :root {
+      --nimble-primary: #7c8dff;
+      --nimble-light: #c1aaf3;
+      --charcoal: #1a1a2e;
+      --charcoal-light: #4a4a6a;
+      --off-white: #f8f9fc;
+      --white: #ffffff;
+      --border: #e2e4f0;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(180deg, var(--charcoal) 0%, #2a2a4e 100%);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      text-align: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--nimble-primary) 0%, var(--nimble-light) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--nimble-primary) 0%, var(--nimble-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 600px;
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(124, 141, 255, 0.2);
+      color: var(--nimble-light);
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .destinations-grid {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .destination-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      width: 160px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .destination-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .destination-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .destination-icon img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .destination-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .destination-type {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .cta-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 32px;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--nimble-primary) 0%, var(--nimble-light) 100%);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 141, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-arrow {
+      font-size: 18px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .back-link:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .footer {
+      padding: 24px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer a {
+      color: var(--nimble-light);
+      text-decoration: none;
+    }
+
+    .features-row {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature-item {
+      text-align: center;
+      max-width: 180px;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(124, 141, 255, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      color: var(--nimble-light);
+    }
+
+    .feature-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="logo">
+      <div class="logo-icon">N</div>
+      <span class="logo-text">Nimble</span>
+    </div>
+
+    <span class="badge">SK8 Integration Demo</span>
+
+    <h1 class="hero-title">
+      Deliver web data to <span>any destination</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Connect Nimble's web data pipelines directly to your data warehouse, cloud storage, or internal systems. Configure once, sync continuously.
+    </p>
+
+    <!-- Destination logos -->
+    <div class="destinations-grid">
+      <div class="destination-card">
+        <div class="destination-icon">
+          <img src="nimble-ui/assets/logos/snowflake.svg" alt="Snowflake">
+        </div>
+        <div class="destination-name">Snowflake</div>
+        <div class="destination-type">Data Warehouse</div>
+      </div>
+      <div class="destination-card">
+        <div class="destination-icon">
+          <img src="nimble-ui/assets/logos/databricks.svg" alt="Databricks">
+        </div>
+        <div class="destination-name">Databricks</div>
+        <div class="destination-type">Lakehouse</div>
+      </div>
+      <div class="destination-card">
+        <div class="destination-icon">
+          <img src="nimble-ui/assets/logos/bigquery.svg" alt="BigQuery">
+        </div>
+        <div class="destination-name">BigQuery</div>
+        <div class="destination-type">Data Warehouse</div>
+      </div>
+      <div class="destination-card">
+        <div class="destination-icon">
+          <img src="nimble-ui/assets/logos/s3.svg" alt="AWS S3">
+        </div>
+        <div class="destination-name">AWS S3</div>
+        <div class="destination-type">Object Storage</div>
+      </div>
+      <div class="destination-card">
+        <div class="destination-icon">
+          <img src="nimble-ui/assets/logos/gcs.svg" alt="Google Cloud Storage">
+        </div>
+        <div class="destination-name">GCS</div>
+        <div class="destination-type">Object Storage</div>
+      </div>
+      <div class="destination-card">
+        <div class="destination-icon">
+          <img src="nimble-ui/assets/logos/api.svg" alt="Custom API">
+        </div>
+        <div class="destination-name">Custom API</div>
+        <div class="destination-type">Webhook/REST</div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features-row">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="feature-title">Real-time Sync</div>
+        <div class="feature-desc">Stream data as it's collected</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="feature-title">Enterprise Security</div>
+        <div class="feature-desc">SOC 2 compliant, encrypted</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <div class="feature-title">Schema Mapping</div>
+        <div class="feature-desc">Map fields to your schema</div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <a href="nimble-ui/wf5-manage-connections/00-overview.html" class="btn btn-primary">
+        Launch Demo
+        <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Back to main demos
+    </a>
+  </div>
+
+  <footer class="footer">
+    <p>Nimble Demo - Powered by <a href="index.html">SK8</a> Data Infrastructure</p>
+  </footer>
+</body>
+</html>

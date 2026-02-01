@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review & Activate - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Main</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Pipelines</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Playground</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Data Delivery</div>
+        <ul class="sidebar-nav">
+          <li><a href="../wf5-manage-connections/00-overview.html">Delivery Overview</a></li>
+          <li><a href="01-available-integrations.html" class="active">Add Destination</a></li>
+          <li><a href="../wf5-manage-connections/01-active-connections.html">Active Destinations</a></li>
+          <li><a href="../wf6-sync-history/01-sync-history.html">Delivery History</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Account</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#" style="color: var(--text-muted);">Billing</a></li>
+          <li><a href="#">Account settings</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">System</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Learning hub</a></li>
+          <li><a href="#">System status</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-cta">
+        <div class="sidebar-cta-sparkles">✦ ✦</div>
+        <div class="sidebar-cta-title">Talk to Sales</div>
+        <div class="sidebar-cta-decoration"></div>
+      </div>
+
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+          <div class="step complete"></div>
+          <div class="step complete"></div>
+          <div class="step complete"></div>
+          <div class="step complete"></div>
+          <div class="step active"></div>
+          <span class="step-label">Step 5 of 5 - Review & Activate</span>
+        </div>
+
+        <div class="content-header">
+          <h1 class="page-title">Review Configuration</h1>
+          <p class="page-subtitle">Review your settings before activating the destination</p>
+        </div>
+
+        <div class="card">
+          <!-- Destination -->
+          <div class="review-section">
+            <div class="review-header">
+              <span class="review-title">DESTINATION</span>
+              <a href="02-select-account.html" class="review-edit">Edit</a>
+            </div>
+            <div class="flex items-center gap-md">
+              <div class="integration-icon">
+                <img src="../assets/logos/snowflake.svg" alt="Snowflake" width="28" height="28">
+              </div>
+              <div>
+                <div style="font-weight: 600;">Snowflake Production</div>
+                <div class="text-sm text-muted">nimble-corp.us-east-1 &bull; WEB_DATA.RAW_DATA</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Sources -->
+          <div class="review-section">
+            <div class="review-header">
+              <span class="review-title">DATA SOURCES</span>
+              <a href="03-select-data.html" class="review-edit">Edit</a>
+            </div>
+            <div class="review-content">
+              <div class="object-list">
+                <span class="badge badge-primary">SERP Results</span>
+                <span class="badge badge-primary">E-commerce Products</span>
+                <span class="badge badge-primary">Maps & Places</span>
+                <span class="badge badge-primary">Social Profiles</span>
+              </div>
+              <div class="text-sm text-muted mt-md">4 pipelines &bull; ~4.9M records/month</div>
+            </div>
+          </div>
+
+          <!-- Field Mappings -->
+          <div class="review-section">
+            <div class="review-header">
+              <span class="review-title">FIELD MAPPINGS</span>
+              <a href="04-field-mapping.html" class="review-edit">Edit</a>
+            </div>
+            <div class="review-content">
+              <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
+                <span class="mapping-preview">query → search_query</span>
+                <span class="mapping-preview">position → rank_position</span>
+                <span class="mapping-preview">title → page_title</span>
+                <span class="mapping-preview">price → current_price</span>
+              </div>
+              <div class="text-sm text-muted mt-sm">30 fields auto-mapped across 4 pipelines</div>
+            </div>
+          </div>
+
+          <!-- Delivery Settings -->
+          <div class="review-section">
+            <div class="review-header">
+              <span class="review-title">DELIVERY SETTINGS</span>
+              <a href="05-sync-settings.html" class="review-edit">Edit</a>
+            </div>
+            <div class="review-content">
+              <div class="review-item">
+                <span class="review-item-label">Frequency</span>
+                <span class="review-item-value">Hourly Batches</span>
+              </div>
+              <div class="review-item">
+                <span class="review-item-label">Format</span>
+                <span class="review-item-value">Parquet (Compressed)</span>
+              </div>
+              <div class="review-item">
+                <span class="review-item-label">Deduplication</span>
+                <span class="review-item-value">Upsert (Merge)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activation CTA -->
+        <div class="activate-section">
+          <h2 class="activate-title">Ready to activate?</h2>
+          <p class="activate-description">
+            Once activated, Nimble will start delivering data to your Snowflake warehouse hourly.<br>
+            You can pause or modify the configuration at any time.
+          </p>
+          <a href="07-success-progress.html" class="btn btn-primary btn-lg">
+            Activate Destination
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+          <a href="05-sync-settings.html" class="btn btn-ghost">&larr; Back</a>
+          <span></span>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

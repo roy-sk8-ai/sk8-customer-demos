@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#29B5E8">
+  <!-- Snowflake logo - simplified version -->
+  <g>
+    <!-- Vertical line -->
+    <rect x="30" y="4" width="4" height="56" rx="2"/>
+    <!-- Horizontal line -->
+    <rect x="4" y="30" width="56" height="4" rx="2"/>
+    <!-- Diagonal lines -->
+    <rect x="30" y="4" width="4" height="56" rx="2" transform="rotate(45 32 32)"/>
+    <rect x="30" y="4" width="4" height="56" rx="2" transform="rotate(-45 32 32)"/>
+    <!-- Center circle -->
+    <circle cx="32" cy="32" r="8"/>
+    <!-- End decorations -->
+    <circle cx="32" cy="8" r="4"/>
+    <circle cx="32" cy="56" r="4"/>
+    <circle cx="8" cy="32" r="4"/>
+    <circle cx="56" cy="32" r="4"/>
+    <circle cx="15" cy="15" r="3"/>
+    <circle cx="49" cy="15" r="3"/>
+    <circle cx="15" cy="49" r="3"/>
+    <circle cx="49" cy="49" r="3"/>
+  </g>
+</svg>

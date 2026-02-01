@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Data Sources - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Main</div><ul class="sidebar-nav"><li><a href="#">Dashboard</a></li><li><a href="#">Pipelines</a></li><li><a href="#">Analytics</a></li><li><a href="#">Playground</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Data Delivery</div><ul class="sidebar-nav"><li><a href="../wf5-manage-connections/00-overview.html">Delivery Overview</a></li><li><a href="01-available-integrations.html" class="active">Add Destination</a></li><li><a href="../wf5-manage-connections/01-active-connections.html">Active Destinations</a></li><li><a href="../wf6-sync-history/01-sync-history.html">Delivery History</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Account</div><ul class="sidebar-nav"><li><a href="#">Pricing</a></li><li><a href="#" style="color: var(--text-muted);">Billing</a></li><li><a href="#">Account settings</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">System</div><ul class="sidebar-nav"><li><a href="#">Learning hub</a></li><li><a href="#">System status</a></li></ul></div>
+      <div class="sidebar-cta"><div class="sidebar-cta-sparkles">✦ ✦</div><div class="sidebar-cta-title">Talk to Sales</div><div class="sidebar-cta-decoration"></div></div>
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      </header>
+
+      <main class="main-content">
+        <div class="step-indicator">
+          <div class="step complete"></div>
+          <div class="step active"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <span class="step-label">Step 2 of 5 - Select Data Sources</span>
+        </div>
+
+        <div class="content-header">
+          <h1 class="page-title">Select Data to Deliver</h1>
+          <p class="page-subtitle">Choose which Nimble pipelines to send to Snowflake</p>
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-input" placeholder="Search pipelines...">
+        </div>
+
+        <div class="card">
+          <div class="selection-card selected" style="background: var(--border-light); border: none; padding: var(--spacing-md); margin-bottom: var(--spacing-md);" onclick="this.classList.toggle('selected')">
+            <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="selection-content">
+              <div class="selection-title">Select All Pipelines</div>
+              <div class="selection-meta">6 pipelines available</div>
+            </div>
+          </div>
+
+          <div class="selection-list">
+            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
+              <input type="checkbox" checked>
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">SERP Results</div>
+                <div class="selection-meta">Google, Bing search results &bull; ~2.1M records/month</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </label>
+
+            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
+              <input type="checkbox" checked>
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">E-commerce Products</div>
+                <div class="selection-meta">Amazon, Walmart product data &bull; ~1.5M records/month</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </label>
+
+            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
+              <input type="checkbox" checked>
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">Maps & Places</div>
+                <div class="selection-meta">Google Maps, business listings &bull; ~890K records/month</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </label>
+
+            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
+              <input type="checkbox" checked>
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">Social Profiles</div>
+                <div class="selection-meta">LinkedIn, company profiles &bull; ~456K records/month</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </label>
+
+            <label class="card selection-card" onclick="this.classList.toggle('selected')">
+              <input type="checkbox">
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">Real Estate Listings</div>
+                <div class="selection-meta">Property listings, prices &bull; ~234K records/month</div>
+              </div>
+              <span class="badge badge-neutral">Paused</span>
+            </label>
+
+            <label class="card selection-card" onclick="this.classList.toggle('selected')">
+              <input type="checkbox">
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">Job Postings</div>
+                <div class="selection-meta">LinkedIn, Indeed jobs &bull; ~567K records/month</div>
+              </div>
+              <span class="badge badge-neutral">Paused</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card mt-lg" style="background: var(--border-light);">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="text-sm text-muted">Selected</div>
+              <div style="font-weight: 600;">4 pipelines (~4.9M records/month)</div>
+            </div>
+            <div>
+              <div class="text-sm text-muted">Estimated storage</div>
+              <div style="font-weight: 600;">~12 GB/month</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-actions">
+          <a href="02-select-account.html" class="btn btn-ghost">&larr; Back</a>
+          <a href="04-field-mapping.html" class="btn btn-primary">Continue &rarr;</a>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

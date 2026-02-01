@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configure Destination - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Main</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Pipelines</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Playground</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Data Delivery</div>
+        <ul class="sidebar-nav">
+          <li><a href="../wf5-manage-connections/00-overview.html">Delivery Overview</a></li>
+          <li><a href="01-available-integrations.html" class="active">Add Destination</a></li>
+          <li><a href="../wf5-manage-connections/01-active-connections.html">Active Destinations</a></li>
+          <li><a href="../wf6-sync-history/01-sync-history.html">Delivery History</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Account</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#" style="color: var(--text-muted);">Billing</a></li>
+          <li><a href="#">Account settings</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">System</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Learning hub</a></li>
+          <li><a href="#">System status</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-cta">
+        <div class="sidebar-cta-sparkles">✦ ✦</div>
+        <div class="sidebar-cta-title">Talk to Sales</div>
+        <div class="sidebar-cta-decoration"></div>
+      </div>
+
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+          <div class="step active"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <span class="step-label">Step 1 of 5 - Configure Connection</span>
+        </div>
+
+        <div class="content-header">
+          <h1 class="page-title">Configure Snowflake Connection</h1>
+          <p class="page-subtitle">Enter your Snowflake credentials to connect</p>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center gap-md mb-lg">
+            <div class="integration-icon">
+              <img src="../assets/logos/snowflake.svg" alt="Snowflake" width="28" height="28">
+            </div>
+            <div>
+              <div style="font-weight: 600; font-size: 16px;">Snowflake Data Warehouse</div>
+              <div class="text-sm text-muted">Enterprise data platform</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Connection Name</label>
+            <input type="text" class="form-input" value="Snowflake Production" placeholder="e.g., Production Warehouse">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Account Identifier</label>
+            <input type="text" class="form-input" placeholder="xy12345.us-east-1" value="nimble-corp.us-east-1">
+            <div class="text-sm text-muted mt-sm">Your Snowflake account identifier (e.g., xy12345.region)</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Warehouse</label>
+            <input type="text" class="form-input" placeholder="COMPUTE_WH" value="NIMBLE_ETL_WH">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Database</label>
+            <input type="text" class="form-input" placeholder="MY_DATABASE" value="WEB_DATA">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Schema</label>
+            <input type="text" class="form-input" placeholder="PUBLIC" value="RAW_DATA">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" placeholder="service_account" value="nimble_service">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Authentication Method</label>
+            <select class="form-input form-select">
+              <option value="key-pair" selected>Key Pair Authentication</option>
+              <option value="password">Password</option>
+              <option value="oauth">OAuth 2.0</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Private Key</label>
+            <textarea class="form-input" rows="4" placeholder="-----BEGIN PRIVATE KEY-----" style="font-family: var(--font-mono); font-size: 12px;">-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w...
+-----END PRIVATE KEY-----</textarea>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+          <a href="01-available-integrations.html" class="btn btn-ghost">&larr; Back</a>
+          <div class="footer-actions-right">
+            <button class="btn btn-secondary">Test Connection</button>
+            <a href="03-select-data.html" class="btn btn-primary">Continue &rarr;</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery History - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .history-table th {
+      background: var(--nimble-purple-light);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .history-row {
+      cursor: pointer;
+    }
+    .history-row:hover td {
+      background: var(--border-light);
+    }
+    .destination-cell {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    .destination-icon-sm {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Main</div>
+        <ul class="sidebar-nav">
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Pipelines</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>Analytics</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Playground</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Data Delivery</div>
+        <ul class="sidebar-nav">
+          <li><a href="../wf5-manage-connections/00-overview.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>Delivery Overview</a></li>
+          <li><a href="../wf4-pipeline/01-available-integrations.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Add Destination</a></li>
+          <li><a href="../wf5-manage-connections/01-active-connections.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Active Destinations<span class="nav-badge active-badge">3</span></a></li>
+          <li><a href="01-sync-history.html" class="active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Delivery History</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Account</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#" style="color: var(--text-muted);">Billing</a></li>
+          <li><a href="#">Account settings</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">System</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Learning hub<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li>
+          <li><a href="#">System status<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-cta">
+        <div class="sidebar-cta-sparkles">✦ ✦</div>
+        <div class="sidebar-cta-title">Talk to Sales</div>
+        <div class="sidebar-cta-decoration"></div>
+      </div>
+
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <header class="content-header">
+          <h1 class="page-title">Delivery History</h1>
+          <p class="page-subtitle">View and monitor all data deliveries across destinations</p>
+        </header>
+
+        <!-- Stats Row -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">1,247</div>
+            <div class="stat-label">Total Deliveries (30d)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--success);">1,238</div>
+            <div class="stat-label">Successful</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--warning);">7</div>
+            <div class="stat-label">Partial</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--error);">2</div>
+            <div class="stat-label">Failed</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div style="display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div style="flex: 1; position: relative;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="form-input" placeholder="Search by destination or pipeline..." style="padding-left: 36px;">
+          </div>
+          <select class="form-input form-select" style="width: 180px;">
+            <option>All Destinations</option>
+            <option>Snowflake Production</option>
+            <option>BigQuery Analytics</option>
+            <option>S3 Data Lake</option>
+          </select>
+          <select class="form-input form-select" style="width: 140px;">
+            <option>All Statuses</option>
+            <option>Success</option>
+            <option>Partial</option>
+            <option>Failed</option>
+          </select>
+          <select class="form-input form-select" style="width: 140px;">
+            <option>Last 7 Days</option>
+            <option>Last 24 Hours</option>
+            <option>Last 30 Days</option>
+          </select>
+        </div>
+
+        <!-- History Table -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <table class="data-table history-table" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Destination</th>
+                <th>Pipeline</th>
+                <th>Records</th>
+                <th>Size</th>
+                <th>Duration</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="history-row" onclick="window.location='02-sync-details.html'">
+                <td>Today, 2:12 PM</td>
+                <td>
+                  <div class="destination-cell">
+                    <div class="destination-icon-sm"><img src="../assets/logos/snowflake.svg" alt="Snowflake" width="18" height="18"></div>
+                    <span>Snowflake Production</span>
+                  </div>
+                </td>
+                <td>SERP Results</td>
+                <td>156,234</td>
+                <td>42 MB</td>
+                <td>2m 34s</td>
+                <td><span class="badge badge-success">Success</span></td>
+              </tr>
+              <tr class="history-row" onclick="window.location='02-sync-details.html'">
+                <td>Today, 2:05 PM</td>
+                <td>
+                  <div class="destination-cell">
+                    <div class="destination-icon-sm"><img src="../assets/logos/bigquery.svg" alt="BigQuery" width="18" height="18"></div>
+                    <span>BigQuery Analytics</span>
+                  </div>
+                </td>
+                <td>E-commerce Products</td>
+                <td>89,421</td>
+                <td>28 MB</td>
+                <td>1m 45s</td>
+                <td><span class="badge badge-success">Success</span></td>
+              </tr>
+              <tr class="history-row" onclick="window.location='02-sync-details.html'">
+                <td>Today, 1:30 PM</td>
+                <td>
+                  <div class="destination-cell">
+                    <div class="destination-icon-sm"><img src="../assets/logos/s3.svg" alt="S3" width="18" height="18"></div>
+                    <span>S3 Data Lake</span>
+                  </div>
+                </td>
+                <td>Social Profiles</td>
+                <td>45,892</td>
+                <td>15 MB</td>
+                <td>58s</td>
+                <td><span class="badge badge-success">Success</span></td>
+              </tr>
+              <tr class="history-row" onclick="window.location='02-sync-details.html'" style="background: var(--warning-bg);">
+                <td>Today, 11:30 AM</td>
+                <td>
+                  <div class="destination-cell">
+                    <div class="destination-icon-sm"><img src="../assets/logos/s3.svg" alt="S3" width="18" height="18"></div>
+                    <span>S3 Data Lake</span>
+                  </div>
+                </td>
+                <td>E-commerce Products</td>
+                <td>67,234 / 89,000</td>
+                <td>18 MB</td>
+                <td>3m 45s</td>
+                <td><span class="badge badge-warning">Partial</span></td>
+              </tr>
+              <tr class="history-row" onclick="window.location='02-sync-details.html'">
+                <td>Today, 11:12 AM</td>
+                <td>
+                  <div class="destination-cell">
+                    <div class="destination-icon-sm"><img src="../assets/logos/snowflake.svg" alt="Snowflake" width="18" height="18"></div>
+                    <span>Snowflake Production</span>
+                  </div>
+                </td>
+                <td>Social Profiles</td>
+                <td>52,456</td>
+                <td>16 MB</td>
+                <td>1m 15s</td>
+                <td><span class="badge badge-success">Success</span></td>
+              </tr>
+              <tr class="history-row" onclick="window.location='02-sync-details.html'">
+                <td>Today, 10:45 AM</td>
+                <td>
+                  <div class="destination-cell">
+                    <div class="destination-icon-sm"><img src="../assets/logos/bigquery.svg" alt="BigQuery" width="18" height="18"></div>
+                    <span>BigQuery Analytics</span>
+                  </div>
+                </td>
+                <td>Maps & Places</td>
+                <td>92,103</td>
+                <td>26 MB</td>
+                <td>1m 52s</td>
+                <td><span class="badge badge-success">Success</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--spacing-lg);">
+          <div class="text-sm text-muted">Showing 1-6 of 1,247 deliveries</div>
+          <div style="display: flex; gap: var(--spacing-sm);">
+            <button class="btn btn-secondary btn-sm" disabled>&larr; Previous</button>
+            <button class="btn btn-secondary btn-sm">Next &rarr;</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
