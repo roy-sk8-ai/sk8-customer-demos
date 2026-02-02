@@ -61,6 +61,21 @@ fs.mkdirSync(path.join(appUiDir, 'wf6-sync-history'), { recursive: true });
 function processTemplate(content, config) {
   let result = content;
 
+  // Theme handling - process conditional blocks
+  const theme = config.branding.theme || 'light';
+  if (theme === 'dark') {
+    // Keep dark theme blocks, remove light theme blocks
+    result = result.replace(/\{\{#theme-dark\}\}([\s\S]*?)\{\{\/theme-dark\}\}/g, '$1');
+    result = result.replace(/\{\{#theme-light\}\}[\s\S]*?\{\{\/theme-light\}\}/g, '');
+  } else {
+    // Keep light theme blocks, remove dark theme blocks
+    result = result.replace(/\{\{#theme-light\}\}([\s\S]*?)\{\{\/theme-light\}\}/g, '$1');
+    result = result.replace(/\{\{#theme-dark\}\}[\s\S]*?\{\{\/theme-dark\}\}/g, '');
+  }
+
+  // Theme variable replacement
+  result = result.replace(/\{\{branding\.theme\}\}/g, theme);
+
   // Brand colors
   result = result.replace(/--nimble-purple:\s*#[0-9a-fA-F]+/g, `--brand-primary: ${config.branding.primaryColor}`);
   result = result.replace(/--nimble-purple-light:\s*#[0-9a-fA-F]+/g, `--brand-primary-light: ${config.branding.lightColor}`);
@@ -77,12 +92,25 @@ function processTemplate(content, config) {
   result = result.replace(/Nimble/g, config.prospect.name);
   result = result.replace(/NIMBLE/g, config.prospect.name.toUpperCase());
 
-  // Logo text with highlight
-  if (config.prospect.logoType === 'text' && config.prospect.logoHighlightLetters) {
+  // Logo handling - text or image
+  if (config.prospect.logoType === 'image' && config.prospect.logoImage) {
+    // Replace text logo with image logo in sidebar
+    result = result.replace(
+      /<span class="sidebar-logo-text">NIMB<span class="logo-l">L<\/span>E<\/span>/g,
+      `<img src="../assets/${config.prospect.logoImage}" alt="${config.prospect.name}" class="sidebar-logo-img" style="height: 24px;">`
+    );
+    // Also handle direct NIMBLE text replacement
+    result = result.replace(/NIMB<span class="logo-l">L<\/span>E/g,
+      `<img src="assets/${config.prospect.logoImage}" alt="${config.prospect.name}" class="sidebar-logo-img" style="height: 24px;">`
+    );
+  } else if (config.prospect.logoType === 'text' && config.prospect.logoHighlightLetters) {
     const logoText = config.prospect.logoText || config.prospect.name.toUpperCase();
     const highlight = config.prospect.logoHighlightLetters;
     const highlightedLogo = logoText.replace(new RegExp(`(${highlight})`, 'g'), '<span class="logo-l">$1</span>');
     result = result.replace(/NIMB<span class="logo-l">L<\/span>E/g, highlightedLogo);
+  } else {
+    // Plain text logo without highlight
+    result = result.replace(/NIMB<span class="logo-l">L<\/span>E/g, config.prospect.name.toUpperCase());
   }
 
   // Navigation section label
@@ -109,6 +137,56 @@ function processTemplate(content, config) {
 
   // Fix nimble-ui references to app-ui
   result = result.replace(/nimble-ui/g, 'app-ui');
+
+  // Generate integration cards from config
+  if (result.includes('{{#integrations.cards}}')) {
+    let cardsHtml = '';
+    for (const item of config.integrations.items) {
+      const description = item.description || `Connect to ${item.name} for ${item.type} integration.`;
+      cardsHtml += `
+          <div class="card integration-card">
+            <div class="integration-icon">
+              <img src="../assets/logos/${item.icon}" alt="${item.name}" width="28" height="28">
+            </div>
+            <div class="flex items-center gap-sm mb-sm">
+              <span class="integration-name">${item.name}</span>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <p class="integration-description">${description}</p>
+            <a href="02-select-account.html" class="btn btn-primary btn-sm">Connect</a>
+          </div>`;
+    }
+    result = result.replace(/\{\{#integrations\.cards\}\}/g, cardsHtml);
+  }
+
+  // Replace default integration names with config integrations throughout all pages
+  // Map the first 4 config integrations to replace default ones
+  const items = config.integrations.items;
+  if (items && items.length >= 1) {
+    // Replace Snowflake references with first integration
+    result = result.replace(/Snowflake Production/g, `${items[0].name} Production`);
+    result = result.replace(/Snowflake/g, items[0].name);
+    result = result.replace(/snowflake\.svg/g, items[0].icon);
+  }
+  if (items && items.length >= 2) {
+    // Replace BigQuery references with second integration
+    result = result.replace(/BigQuery Analytics/g, `${items[1].name} Analytics`);
+    result = result.replace(/BigQuery/g, items[1].name);
+    result = result.replace(/bigquery\.svg/g, items[1].icon);
+  }
+  if (items && items.length >= 3) {
+    // Replace S3 references with third integration
+    result = result.replace(/S3 Data Lake/g, `${items[2].name} Data Lake`);
+    result = result.replace(/AWS S3/g, items[2].name);
+    result = result.replace(/S3(?![a-zA-Z])/g, items[2].name);
+    result = result.replace(/s3\.svg/g, items[2].icon);
+  }
+  if (items && items.length >= 4) {
+    // Replace API/Webhook references with fourth integration
+    result = result.replace(/Internal Analytics API/g, `${items[3].name} API`);
+    result = result.replace(/Custom API \/ Webhook/g, items[3].name);
+    result = result.replace(/api\.svg/g, items[3].icon);
+  }
 
   return result;
 }
@@ -141,9 +219,11 @@ function generateIndex(config) {
     template = template.replace(/\{\{\#prospect\.logoHtml\}\}[\s\S]*?\{\{\/prospect\.logoHtml\}\}/g, logoHtml);
     template = template.replace(/\{\{\^prospect\.logoHtml\}\}[\s\S]*?\{\{\/prospect\.logoHtml\}\}/g, '');
   } else {
+    // Image logo - use logoImage from config or default to logo.png
+    const logoFile = config.prospect.logoImage || 'logo.png';
     template = template.replace(/\{\{\#prospect\.logoHtml\}\}[\s\S]*?\{\{\/prospect\.logoHtml\}\}/g, '');
     template = template.replace(/\{\{\^prospect\.logoHtml\}\}[\s\S]*?\{\{\/prospect\.logoHtml\}\}/g,
-      `<img src="app-ui/assets/logo.png" alt="${config.prospect.name}" class="logo-image">`);
+      `<img src="app-ui/assets/${logoFile}" alt="${config.prospect.name}" class="logo-image">`);
   }
 
   // Integrations

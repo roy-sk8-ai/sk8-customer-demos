@@ -44,6 +44,12 @@
       "type": "object",
       "required": ["primaryColor", "secondaryColor", "lightColor"],
       "properties": {
+        "theme": {
+          "type": "string",
+          "enum": ["light", "dark"],
+          "default": "light",
+          "description": "UI theme - light (white bg) or dark (black bg)"
+        },
         "primaryColor": {
           "type": "string",
           "description": "Primary brand color (hex, e.g., '#7c8dff')"

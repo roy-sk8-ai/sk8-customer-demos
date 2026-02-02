@@ -1,0 +1,79 @@
+{
+  "prospect": {
+    "name": "Torq",
+    "slug": "torq",
+    "website": "https://torq.io",
+    "industry": "Security Hyperautomation",
+    "logoType": "image",
+    "logoImage": "logo.svg"
+  },
+  "branding": {
+    "theme": "dark",
+    "primaryColor": "#00a6c1",
+    "secondaryColor": "#a618e9",
+    "lightColor": "#1a3a3f",
+    "hoverColor": "#008a9e"
+  },
+  "messaging": {
+    "heroTitle": "Ship connectors faster",
+    "heroHighlight": "at scale",
+    "heroSubtitle": "Ingest reliably at scale and normalize EDR data across 300+ security tools. Enable seamless connections to customer environments with FedRAMP-friendly on-prem deployment options, powered by SK8's proven infrastructure.",
+    "splashTitle": "Welcome to Torq's Connector Hub",
+    "splashSubtitle": "This is where Torq customers manage their security integrations. Connect to SIEM, EDR, SOAR, and cloud platforms with enterprise-grade reliability powered by SK8.",
+    "competitors": ["Cortex XSOAR", "Splunk SOAR", "Tines", "Swimlane"]
+  },
+  "integrations": {
+    "category": "Connector",
+    "categoryPlural": "Connectors",
+    "items": [
+      { "name": "CrowdStrike", "type": "EDR", "icon": "crowdstrike.svg", "description": "Ingest endpoint detection and response data from CrowdStrike Falcon for automated threat analysis." },
+      { "name": "SentinelOne", "type": "EDR", "icon": "sentinelone.svg", "description": "Connect to SentinelOne for real-time endpoint security event streaming and correlation." },
+      { "name": "Splunk", "type": "SIEM", "icon": "splunk.svg", "description": "Integrate with Splunk to enrich security data and automate incident response workflows." },
+      { "name": "ServiceNow", "type": "ITSM", "icon": "servicenow.svg", "description": "Create tickets and manage incidents automatically through ServiceNow ITSM integration." },
+      { "name": "AWS S3", "type": "Object Storage", "icon": "s3.svg", "description": "Export security logs and artifacts to S3 buckets for long-term retention and analysis." },
+      { "name": "Custom API", "type": "Webhook/REST", "icon": "api.svg", "description": "Build custom integrations via REST API endpoints or webhooks for any security tool." }
+    ]
+  },
+  "navigation": {
+    "sectionLabel": "Security Connectors",
+    "menuItems": [
+      {
+        "id": "overview",
+        "label": "Connector Overview",
+        "tooltip": "Dashboard showing all active connectors, health metrics, and recent activity"
+      },
+      {
+        "id": "add",
+        "label": "Add Connector",
+        "tooltip": "Configure a new security connector: EDR, SIEM, ITSM, or custom API"
+      },
+      {
+        "id": "active",
+        "label": "Active Connectors",
+        "tooltip": "View and manage your connected security integrations"
+      },
+      {
+        "id": "history",
+        "label": "Sync History",
+        "tooltip": "Browse connector logs, delivery status, and historical data"
+      }
+    ]
+  },
+  "features": [
+    {
+      "title": "EDR Normalization",
+      "description": "Unified schema across vendors",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\" /></svg>"
+    },
+    {
+      "title": "Real-time Ingestion",
+      "description": "Stream security events as they happen",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"22 12 18 12 15 21 9 3 6 12 2 12\" /></svg>"
+    },
+    {
+      "title": "FedRAMP Ready",
+      "description": "On-prem deployment options",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\" /><path d=\"M7 11V7a5 5 0 0 1 10 0v4\" /></svg>"
+    }
+  ]
+}

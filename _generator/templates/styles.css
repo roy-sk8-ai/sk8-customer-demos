@@ -1,5 +1,5 @@
 /* {{prospect.name}} UI Design System */
-/* Light sidebar, brand accents, clean modern aesthetic */
+/* Theme: {{branding.theme}} */
 
 /* ==================== CSS Variables ==================== */
 :root {
@@ -9,22 +9,41 @@
   --brand-primary-hover: {{branding.hoverColor}};
   --brand-secondary: {{branding.secondaryColor}};
 
-  /* UI Colors */
+  /* UI Colors - Theme Dependent */
+  {{#theme-light}}
   --sidebar-bg: #ffffff;
   --sidebar-border: #f0f0f5;
   --header-bg: #ffffff;
   --content-bg: #fafbfc;
   --card-bg: #ffffff;
-
-  /* Text Colors */
   --text-primary: #1a1a2e;
   --text-secondary: #6b7280;
   --text-muted: #9ca3af;
   --section-label: #9ca3af;
-
-  /* Borders */
   --border: #e5e7eb;
   --border-light: #f3f4f6;
+  --input-bg: #ffffff;
+  --modal-bg: #ffffff;
+  --tooltip-bg: #1a1a2e;
+  --tooltip-text: #ffffff;
+  {{/theme-light}}
+  {{#theme-dark}}
+  --sidebar-bg: #0d0d0d;
+  --sidebar-border: #1f1f1f;
+  --header-bg: #0d0d0d;
+  --content-bg: #000000;
+  --card-bg: #141414;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6b6b6b;
+  --section-label: #6b6b6b;
+  --border: #2a2a2a;
+  --border-light: #1a1a1a;
+  --input-bg: #1a1a1a;
+  --modal-bg: #141414;
+  --tooltip-bg: #2a2a2a;
+  --tooltip-text: #ffffff;
+  {{/theme-dark}}
 
   /* Status Colors */
   --success: #10b981;
@@ -32,6 +51,7 @@
   --success-dot: #34d399;
   --warning: #f59e0b;
   --warning-bg: #fef3c7;
+  --warning-text: #92400e; /* Dark text for light warning backgrounds */
   --error: #ef4444;
   --error-bg: #fee2e2;
 
@@ -104,6 +124,24 @@ body {
 .sidebar-logo-text .logo-l {
   color: var(--brand-primary);
 }
+
+.sidebar-logo-img {
+  height: 24px;
+  width: auto;
+  filter: brightness(0) invert(var(--logo-invert, 0));
+}
+
+/* Dark theme: invert logo to white */
+{{#theme-dark}}
+:root {
+  --logo-invert: 1;
+}
+{{/theme-dark}}
+{{#theme-light}}
+:root {
+  --logo-invert: 0;
+}
+{{/theme-light}}
 
 .sidebar-menu-btn {
   margin-left: auto;
@@ -217,8 +255,8 @@ body {
   left: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
-  background: var(--text-primary);
-  color: white;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
   padding: 8px 12px;
   border-radius: var(--radius-md);
   font-size: 12px;
@@ -228,10 +266,11 @@ body {
   visibility: hidden;
   transition: all 0.2s ease;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   max-width: 340px;
   white-space: normal;
   line-height: 1.4;
+  border: 1px solid var(--border);
 }
 
 .sidebar-nav a[data-tooltip]::before {
@@ -241,7 +280,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   border: 6px solid transparent;
-  border-right-color: var(--text-primary);
+  border-right-color: var(--tooltip-bg);
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s ease;
@@ -277,13 +316,14 @@ body {
 }
 
 .splash-modal {
-  background: white;
+  background: var(--modal-bg);
   border-radius: var(--radius-xl);
   padding: var(--spacing-xl);
   max-width: 520px;
   width: 90%;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
   animation: splashIn 0.3s ease;
+  border: 1px solid var(--border);
 }
 
 @keyframes splashIn {
@@ -331,6 +371,7 @@ body {
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--border);
 }
 
 .splash-feature {
@@ -341,19 +382,20 @@ body {
 }
 
 .splash-feature:not(:last-child) {
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border);
 }
 
 .splash-feature-icon {
   width: 32px;
   height: 32px;
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   color: var(--brand-primary);
+  border: 1px solid var(--border);
 }
 
 .splash-feature-text {
@@ -393,7 +435,7 @@ body {
 }
 
 .splash-btn:hover {
-  background: var(--nimble-purple-hover);
+  background: var(--brand-primary-hover);
   transform: translateY(-1px);
 }
 
@@ -414,7 +456,7 @@ body {
 /* Talk to Sales Card */
 .sidebar-cta {
   margin-top: auto;
-  background: var(--text-primary);
+  background: var(--brand-primary);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   color: white;
@@ -582,16 +624,16 @@ body {
 }
 
 .btn-primary {
-  background: var(--text-primary);
+  background: var(--brand-primary);
   color: white;
 }
 
 .btn-primary:hover {
-  background: #2d2d42;
+  background: var(--brand-primary-hover);
 }
 
 .btn-secondary {
-  background: white;
+  background: var(--card-bg);
   color: var(--text-primary);
   border: 1px solid var(--border);
 }
@@ -636,7 +678,12 @@ body {
 
 .badge-warning {
   background: var(--warning-bg);
-  color: #d97706;
+  color: var(--warning-text);
+}
+
+/* Ensure text contrast on warning backgrounds */
+[style*="warning-bg"] {
+  color: var(--warning-text);
 }
 
 .badge-error {
@@ -675,7 +722,7 @@ body {
   color: var(--text-primary);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: white;
+  background: var(--input-bg);
   transition: border-color 0.15s ease;
 }
 
@@ -772,7 +819,7 @@ body {
   align-items: center;
   gap: var(--spacing-md);
   padding: var(--spacing-md);
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -889,6 +936,7 @@ body {
   font-weight: 600;
   font-size: 15px;
   margin-bottom: var(--spacing-xs);
+  color: var(--text-primary);
 }
 
 .integration-description {
@@ -904,7 +952,7 @@ body {
   align-items: center;
   gap: var(--spacing-md);
   padding: var(--spacing-md);
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   margin-bottom: var(--spacing-sm);
@@ -1008,7 +1056,7 @@ body {
 }
 
 .stat-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
@@ -1063,7 +1111,7 @@ body {
   align-items: center;
   gap: var(--spacing-xs);
   padding: 8px 14px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   font-size: 13px;
@@ -1279,7 +1327,7 @@ body {
 .integration-icon-lg {
   width: 48px;
   height: 48px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   display: flex;
