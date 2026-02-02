@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SK8 Demo Config",
+  "description": "Configuration for generating a prospect demo site",
+  "type": "object",
+  "required": ["prospect", "branding", "messaging", "integrations", "navigation"],
+  "properties": {
+    "prospect": {
+      "type": "object",
+      "required": ["name", "slug"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Company name (e.g., 'Nimble')"
+        },
+        "slug": {
+          "type": "string",
+          "description": "URL-safe identifier (e.g., 'nimble')"
+        },
+        "website": {
+          "type": "string",
+          "description": "Company website URL for research"
+        },
+        "industry": {
+          "type": "string",
+          "description": "Industry vertical (e.g., 'Web Data Collection')"
+        },
+        "logoType": {
+          "type": "string",
+          "enum": ["text", "image"],
+          "description": "Whether to use text-based or image logo"
+        },
+        "logoText": {
+          "type": "string",
+          "description": "Text for logo (if logoType is 'text')"
+        },
+        "logoHighlightLetters": {
+          "type": "string",
+          "description": "Letters to highlight in brand color (e.g., 'L' for NimbLe)"
+        }
+      }
+    },
+    "branding": {
+      "type": "object",
+      "required": ["primaryColor", "secondaryColor", "lightColor"],
+      "properties": {
+        "primaryColor": {
+          "type": "string",
+          "description": "Primary brand color (hex, e.g., '#7c8dff')"
+        },
+        "secondaryColor": {
+          "type": "string",
+          "description": "Secondary/accent color (hex)"
+        },
+        "lightColor": {
+          "type": "string",
+          "description": "Light variant for backgrounds (hex)"
+        },
+        "hoverColor": {
+          "type": "string",
+          "description": "Hover state color (hex)"
+        }
+      }
+    },
+    "messaging": {
+      "type": "object",
+      "required": ["heroTitle", "heroHighlight", "heroSubtitle"],
+      "properties": {
+        "heroTitle": {
+          "type": "string",
+          "description": "Main hero headline (before highlight)"
+        },
+        "heroHighlight": {
+          "type": "string",
+          "description": "Highlighted portion of hero title"
+        },
+        "heroSubtitle": {
+          "type": "string",
+          "description": "Subheadline describing the value proposition"
+        },
+        "splashTitle": {
+          "type": "string",
+          "description": "Splash screen welcome title"
+        },
+        "splashSubtitle": {
+          "type": "string",
+          "description": "Splash screen description"
+        },
+        "competitors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Known competitors for context"
+        }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "required": ["category", "categoryPlural", "items"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "description": "Singular category name (e.g., 'Source', 'Integration')"
+        },
+        "categoryPlural": {
+          "type": "string",
+          "description": "Plural category name (e.g., 'Sources', 'Integrations')"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "icon"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Integration name (e.g., 'Snowflake')"
+              },
+              "type": {
+                "type": "string",
+                "description": "Integration type (e.g., 'Data Warehouse')"
+              },
+              "icon": {
+                "type": "string",
+                "description": "Icon filename (e.g., 'snowflake.svg')"
+              }
+            }
+          }
+        }
+      }
+    },
+    "navigation": {
+      "type": "object",
+      "required": ["sectionLabel", "menuItems"],
+      "properties": {
+        "sectionLabel": {
+          "type": "string",
+          "description": "Sidebar section label (e.g., 'Data Delivery')"
+        },
+        "menuItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "tooltip"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Menu item identifier"
+              },
+              "label": {
+                "type": "string",
+                "description": "Display label"
+              },
+              "tooltip": {
+                "type": "string",
+                "description": "Hover tooltip text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "description": "Features shown on landing page",
+      "items": {
+        "type": "object",
+        "required": ["title", "description", "icon"],
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "icon": { "type": "string", "description": "SVG markup for icon" }
+        }
+      }
+    }
+  }
+}

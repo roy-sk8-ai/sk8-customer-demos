@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Source - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Main</div><ul class="sidebar-nav"><li><a href="#">Dashboard</a></li><li><a href="#">Pipelines</a></li><li><a href="#">Analytics</a></li><li><a href="#">Playground</a></li></ul></div>
+      <div class="sidebar-section highlighted"><div class="sidebar-section-label">Data Delivery</div><ul class="sidebar-nav"><li><a href="00-overview.html" data-tooltip="Dashboard showing all active syncs, health metrics, and recent activity">Delivery Overview</a></li><li><a href="../wf4-pipeline/01-available-integrations.html" data-tooltip="Configure a new data source: warehouse, cloud storage, or API">Add Source</a></li><li><a href="01-active-connections.html" class="active" data-tooltip="View and manage your connected data sources">Active Sources</a></li><li><a href="../wf6-sync-history/01-sync-history.html" data-tooltip="Browse sync logs, delivery status, and historical data">Delivery History</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Account</div><ul class="sidebar-nav"><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pricing</a></li><li><a href="#" style="color: var(--text-muted);"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01"/></svg>Billing</a></li><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Account settings</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">System</div><ul class="sidebar-nav"><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Learning hub<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>System status<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li></ul></div>
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      </header>
+
+      <main class="main-content">
+      <!-- Breadcrumb -->
+      <div style="font-size: 13px; color: var(--charcoal-light); margin-bottom: var(--spacing-md);">
+        <a href="01-active-connections.html" style="color: var(--charcoal); text-decoration: underline;">Active Sources</a>
+        <span> / </span>
+        <a href="02-connection-details.html" style="color: var(--charcoal); text-decoration: underline;">Snowflake Production</a>
+        <span> / </span>
+        <span>Edit</span>
+      </div>
+
+      <div class="content-header">
+        <h1 class="page-title">Edit Source</h1>
+        <p class="page-subtitle">Modify your Snowflake delivery configuration</p>
+      </div>
+
+      <div class="card mb-lg">
+        <div class="flex items-center gap-md mb-lg">
+          <div style="width: 48px; height: 48px; background: var(--off-white); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+            <img src="../assets/logos/snowflake.svg" alt="Snowflake" width="28" height="28">
+          </div>
+          <div>
+            <div style="font-weight: 600;">Snowflake Production</div>
+            <div class="text-sm text-muted">Connected since Jan 15, 2024</div>
+          </div>
+          <span class="badge badge-success" style="margin-left: auto;">Active</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Connection Name</label>
+          <input type="text" class="form-input" value="Snowflake Production">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Account Identifier</label>
+          <input type="text" class="form-input" value="nimble-corp.us-east-1">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Warehouse</label>
+          <input type="text" class="form-input" value="NIMBLE_ETL_WH">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Database</label>
+          <input type="text" class="form-input" value="WEB_DATA">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Schema</label>
+          <input type="text" class="form-input" value="RAW_DATA">
+        </div>
+      </div>
+
+      <div class="card mb-lg">
+        <h3 style="font-weight: 600; margin-bottom: var(--spacing-md);">Delivery Settings</h3>
+
+        <div class="form-group">
+          <label class="form-label">Delivery Frequency</label>
+          <select class="form-input form-select">
+            <option value="realtime">Real-time Streaming</option>
+            <option value="hourly" selected>Hourly Batches</option>
+            <option value="daily">Daily Batches</option>
+            <option value="custom">Custom Schedule</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Data Format</label>
+          <select class="form-input form-select">
+            <option value="parquet" selected>Parquet</option>
+            <option value="json">JSON (NDJSON)</option>
+            <option value="csv">CSV</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Deduplication Mode</label>
+          <select class="form-input form-select">
+            <option value="upsert" selected>Upsert (Merge)</option>
+            <option value="append">Append Only</option>
+            <option value="replace">Replace</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="card" style="border-color: var(--error);">
+        <h3 style="font-weight: 600; color: var(--error); margin-bottom: var(--spacing-md);">Danger Zone</h3>
+        <p class="text-sm text-muted mb-md">These actions are irreversible. Please proceed with caution.</p>
+        <div class="flex gap-md">
+          <button class="btn btn-secondary">Pause Delivery</button>
+          <button class="btn" style="background: var(--error); color: white;">Delete Source</button>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="footer-actions">
+        <a href="02-connection-details.html" class="btn btn-ghost">&larr; Cancel</a>
+        <div class="footer-actions-right">
+          <button class="btn btn-secondary">Test Connection</button>
+          <a href="02-connection-details.html" class="btn btn-primary">Save Changes</a>
+        </div>
+      </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

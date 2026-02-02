@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="app-ui/assets/favicon.png">
+  <title>{{prospect.name}} - SK8 Demo</title>
+  <style>
+    :root {
+      --brand-primary: {{branding.primaryColor}};
+      --brand-secondary: {{branding.secondaryColor}};
+      --brand-light: {{branding.lightColor}};
+      --sk8-lime: #d4f72c;
+      --sk8-charcoal: #333333;
+      --charcoal: #1a1a2e;
+      --charcoal-light: #4a4a6a;
+      --off-white: #f8f9fc;
+      --white: #ffffff;
+      --border: #e2e4f0;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(180deg, var(--charcoal) 0%, #2a2a4e 100%);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      text-align: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .logo-text {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-image {
+      height: 48px;
+      width: auto;
+    }
+
+    .logo-text .logo-highlight {
+      color: var(--brand-primary);
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 800px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(124, 141, 255, 0.2);
+      color: var(--brand-secondary);
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .integrations-grid {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .integration-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      width: 160px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .integration-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .integration-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .integration-icon img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .integration-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .integration-type {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .cta-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 32px;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 141, 255, 0.4);
+    }
+
+    .btn-arrow {
+      font-size: 18px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .back-link:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .footer {
+      padding: 24px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .footer .sk8-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--sk8-lime);
+      border-radius: 6px;
+      color: var(--sk8-charcoal);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .features-row {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature-item {
+      text-align: center;
+      max-width: 180px;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(124, 141, 255, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      color: var(--brand-secondary);
+    }
+
+    .feature-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero">
+    <div class="logo">
+      {{#prospect.logoHtml}}
+      {{{prospect.logoHtml}}}
+      {{/prospect.logoHtml}}
+      {{^prospect.logoHtml}}
+      <img src="app-ui/assets/logo.png" alt="{{prospect.name}}" class="logo-image">
+      {{/prospect.logoHtml}}
+    </div>
+
+    <span class="badge">SK8 Integration Demo</span>
+
+    <h1 class="hero-title">
+      {{messaging.heroTitle}} <span>{{messaging.heroHighlight}}</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      {{messaging.heroSubtitle}}
+    </p>
+
+    <!-- Integration logos -->
+    <div class="integrations-grid">
+      {{#integrations.items}}
+      <div class="integration-card">
+        <div class="integration-icon">
+          <img src="app-ui/assets/logos/{{icon}}" alt="{{name}}">
+        </div>
+        <div class="integration-name">{{name}}</div>
+        <div class="integration-type">{{type}}</div>
+      </div>
+      {{/integrations.items}}
+    </div>
+
+    <!-- Features -->
+    <div class="features-row">
+      {{#features}}
+      <div class="feature-item">
+        <div class="feature-icon">
+          {{{icon}}}
+        </div>
+        <div class="feature-title">{{title}}</div>
+        <div class="feature-desc">{{description}}</div>
+      </div>
+      {{/features}}
+    </div>
+
+    <div class="cta-section">
+      <a href="app-ui/wf5-manage-connections/00-overview.html" class="btn btn-primary">
+        Launch Demo
+        <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </svg>
+      Back to main demos
+    </a>
+  </div>
+
+  <footer class="footer">
+    <span>{{prospect.name}} Demo — Powered by</span>
+    <span class="sk8-logo">SK8</span>
+    <span>Data Infrastructure</span>
+  </footer>
+</body>
+
+</html>

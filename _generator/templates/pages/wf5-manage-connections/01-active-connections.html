@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Active Sources - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <style>
+    .pipeline-table th {
+      background: var(--nimble-purple-light);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .pipeline-row {
+      cursor: pointer;
+    }
+    .pipeline-row:hover td {
+      background: var(--border-light);
+    }
+    .pipeline-name-cell {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+    .pipeline-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pipeline-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success-dot);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Main</div>
+        <ul class="sidebar-nav">
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Pipelines</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>Analytics</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Playground</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section highlighted">
+        <div class="sidebar-section-label">Data Delivery</div>
+        <ul class="sidebar-nav">
+          <li><a href="00-overview.html" data-tooltip="Dashboard showing all active syncs, health metrics, and recent activity"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>Delivery Overview</a></li>
+          <li><a href="../wf4-pipeline/01-available-integrations.html" data-tooltip="Configure a new data source: warehouse, cloud storage, or API"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Add Source</a></li>
+          <li><a href="01-active-connections.html" class="active" data-tooltip="View and manage your connected data sources"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Active Sources<span class="nav-badge active-badge">3</span></a></li>
+          <li><a href="../wf6-sync-history/01-sync-history.html" data-tooltip="Browse sync logs, delivery status, and historical data"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Delivery History</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Account</div>
+        <ul class="sidebar-nav">
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pricing</a></li>
+          <li><a href="#" style="color: var(--text-muted);"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01"/></svg>Billing</a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Account settings</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">System</div>
+        <ul class="sidebar-nav">
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Learning hub<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li>
+          <li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>System status<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li>
+        </ul>
+      </div>
+
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <header class="content-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h1 class="page-title">Active Sources</h1>
+            <p class="page-subtitle">Manage your data delivery configurations</p>
+          </div>
+          <a href="../wf4-pipeline/01-available-integrations.html" class="btn btn-primary">+ Add Source</a>
+        </header>
+
+        <!-- Filters -->
+        <div style="display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div style="flex: 1; position: relative;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="form-input" placeholder="Search" style="padding-left: 36px;">
+          </div>
+          <select class="form-input form-select" style="width: 140px;">
+            <option>Status</option>
+            <option>Active</option>
+            <option>Paused</option>
+          </select>
+          <button class="btn btn-ghost" style="color: var(--text-muted);">Clear All</button>
+        </div>
+
+        <!-- Destinations Table -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <table class="data-table pipeline-table" style="margin: 0;">
+            <thead>
+              <tr>
+                <th style="width: 40px;"></th>
+                <th>Default Configuration</th>
+                <th>Data transferred</th>
+                <th>Success rate</th>
+                <th>Limit</th>
+                <th style="width: 40px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="pipeline-row" onclick="window.location='02-connection-details.html'">
+                <td><div class="pipeline-status"></div></td>
+                <td>
+                  <div class="pipeline-name-cell">
+                    <div class="pipeline-icon">
+                      <img src="../assets/logos/snowflake.svg" alt="Snowflake" width="24" height="24">
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">Snowflake Production</div>
+                      <div class="text-sm text-muted">WEB_DATA.RAW_DATA &bull; Hourly</div>
+                    </div>
+                  </div>
+                </td>
+                <td>1.2M</td>
+                <td>99.9%</td>
+                <td><span class="badge badge-neutral">Unlimited</span></td>
+                <td style="text-align: center; color: var(--text-muted);">⋮</td>
+              </tr>
+              <tr class="pipeline-row" onclick="window.location='02-connection-details.html'">
+                <td><div class="pipeline-status"></div></td>
+                <td>
+                  <div class="pipeline-name-cell">
+                    <div class="pipeline-icon">
+                      <img src="../assets/logos/bigquery.svg" alt="BigQuery" width="24" height="24">
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">BigQuery Analytics</div>
+                      <div class="text-sm text-muted">web_data.raw &bull; Hourly</div>
+                    </div>
+                  </div>
+                </td>
+                <td>856K</td>
+                <td>99.8%</td>
+                <td><span class="badge badge-neutral">Unlimited</span></td>
+                <td style="text-align: center; color: var(--text-muted);">⋮</td>
+              </tr>
+              <tr class="pipeline-row" onclick="window.location='02-connection-details.html'">
+                <td><div class="pipeline-status"></div></td>
+                <td>
+                  <div class="pipeline-name-cell">
+                    <div class="pipeline-icon">
+                      <img src="../assets/logos/s3.svg" alt="S3" width="24" height="24">
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">S3 Data Lake</div>
+                      <div class="text-sm text-muted">s3://nimble-data-lake/ &bull; Daily</div>
+                    </div>
+                  </div>
+                </td>
+                <td>423K</td>
+                <td>100%</td>
+                <td><span class="badge badge-neutral">Unlimited</span></td>
+                <td style="text-align: center; color: var(--text-muted);">⋮</td>
+              </tr>
+              <tr class="pipeline-row" style="opacity: 0.6;" onclick="window.location='02-connection-details.html'">
+                <td><div class="pipeline-status" style="background: var(--text-muted);"></div></td>
+                <td>
+                  <div class="pipeline-name-cell">
+                    <div class="pipeline-icon">
+                      <img src="../assets/logos/api.svg" alt="API" width="24" height="24">
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">Internal Analytics API</div>
+                      <div class="text-sm text-muted">Webhook &bull; Real-time</div>
+                    </div>
+                  </div>
+                </td>
+                <td>--</td>
+                <td>--</td>
+                <td><span class="badge badge-neutral">Paused</span></td>
+                <td style="text-align: center; color: var(--text-muted);">⋮</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

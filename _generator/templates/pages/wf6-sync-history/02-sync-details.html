@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Details - Nimble</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <style>
+    .detail-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: var(--spacing-xl);
+    }
+    .detail-header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+    .detail-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--border-light);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .detail-icon img {
+      width: 28px;
+      height: 28px;
+    }
+    .detail-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .detail-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      text-align: center;
+    }
+    .stat-card-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .stat-card-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .section {
+      margin-bottom: var(--spacing-xl);
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: var(--spacing-md);
+    }
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: var(--spacing-md);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 2px solid var(--white);
+    }
+    .timeline-item.success::before { background: var(--success); }
+    .timeline-item.info::before { background: var(--nimble-purple); }
+    .timeline-item.error::before { background: var(--error); }
+    .timeline-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+    .timeline-content {
+      font-size: 13px;
+      margin-top: 2px;
+    }
+    .log-container {
+      background: #1a1a2e;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .log-header-title {
+      color: white;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .log-header-btn {
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .log-content {
+      padding: var(--spacing-md) var(--spacing-lg);
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .log-entry {
+      display: flex;
+      gap: var(--spacing-md);
+      padding: 4px 0;
+    }
+    .log-time {
+      color: #6b7280;
+      flex-shrink: 0;
+    }
+    .log-level {
+      min-width: 50px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .log-level.info { color: #60a5fa; }
+    .log-level.success { color: #4ade80; }
+    .log-message {
+      color: #e5e7eb;
+    }
+    .log-message .highlight {
+      color: #c1aaf3;
+    }
+    .log-message .value {
+      color: #4ade80;
+    }
+    .data-breakdown {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+    .breakdown-item {
+      padding: var(--spacing-md);
+      background: var(--border-light);
+      border-radius: var(--radius-md);
+    }
+    .breakdown-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .breakdown-value {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-text">NIMB<span class="logo-l">L</span>E</span>
+        <button class="sidebar-menu-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Main</div><ul class="sidebar-nav"><li><a href="#">Dashboard</a></li><li><a href="#">Pipelines</a></li><li><a href="#">Analytics</a></li><li><a href="#">Playground</a></li></ul></div>
+      <div class="sidebar-section highlighted"><div class="sidebar-section-label">Data Delivery</div><ul class="sidebar-nav"><li><a href="../wf5-manage-connections/00-overview.html" data-tooltip="Dashboard showing all active syncs, health metrics, and recent activity">Delivery Overview</a></li><li><a href="../wf4-pipeline/01-available-integrations.html" data-tooltip="Configure a new data source: warehouse, cloud storage, or API">Add Source</a></li><li><a href="../wf5-manage-connections/01-active-connections.html" data-tooltip="View and manage your connected data sources">Active Sources</a></li><li><a href="01-sync-history.html" class="active" data-tooltip="Browse sync logs, delivery status, and historical data">Delivery History</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Account</div><ul class="sidebar-nav"><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pricing</a></li><li><a href="#" style="color: var(--text-muted);"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01"/></svg>Billing</a></li><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Account settings</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-section-label">System</div><ul class="sidebar-nav"><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Learning hub<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li><li><a href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>System status<svg class="nav-external" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></li></ul></div>
+      <div class="powered-by">Powered by <span class="powered-by-logo">SK8</span></div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <button class="btn-upgrade">Upgrade plan</button>
+        <div class="user-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      </header>
+
+      <main class="main-content">
+      <!-- Breadcrumb -->
+      <div style="font-size: 13px; color: var(--charcoal-light); margin-bottom: var(--spacing-md);">
+        <a href="01-sync-history.html" style="color: var(--charcoal); text-decoration: underline;">Delivery History</a>
+        <span> / </span>
+        <span>Delivery Details</span>
+      </div>
+
+      <!-- Header -->
+      <div class="detail-header">
+        <div class="detail-header-left">
+          <div class="detail-icon">
+            <img src="../assets/logos/snowflake.svg" alt="Snowflake">
+          </div>
+          <div>
+            <h1 class="detail-title">SERP Results → Snowflake Production</h1>
+            <div class="detail-meta">Delivery ID: del_sf_serp_20240201_1412 &bull; Today, 2:12 PM</div>
+          </div>
+        </div>
+        <span class="badge badge-success" style="font-size: 14px; padding: 8px 16px;">Success</span>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-value">156,234</div>
+          <div class="stat-card-label">Records Delivered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value">42 MB</div>
+          <div class="stat-card-label">Data Size</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value">2m 34s</div>
+          <div class="stat-card-label">Duration</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value">1,015/s</div>
+          <div class="stat-card-label">Throughput</div>
+        </div>
+      </div>
+
+      <!-- Data Breakdown -->
+      <div class="card section">
+        <h2 class="section-title">Data Breakdown</h2>
+        <div class="data-breakdown">
+          <div class="breakdown-item">
+            <div class="breakdown-label">New Records</div>
+            <div class="breakdown-value">45,892</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">Updated Records</div>
+            <div class="breakdown-value">110,342</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">Skipped (Duplicates)</div>
+            <div class="breakdown-value">0</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">Failed Records</div>
+            <div class="breakdown-value">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="card section">
+        <h2 class="section-title">Delivery Timeline</h2>
+        <div class="timeline">
+          <div class="timeline-item success">
+            <div class="timeline-time">14:12:00</div>
+            <div class="timeline-content">Delivery job started</div>
+          </div>
+          <div class="timeline-item info">
+            <div class="timeline-time">14:12:01</div>
+            <div class="timeline-content">Connected to Snowflake (nimble-corp.us-east-1)</div>
+          </div>
+          <div class="timeline-item info">
+            <div class="timeline-time">14:12:02</div>
+            <div class="timeline-content">Fetching 156,234 records from SERP Results pipeline</div>
+          </div>
+          <div class="timeline-item info">
+            <div class="timeline-time">14:12:45</div>
+            <div class="timeline-content">Converting to Parquet format (42 MB)</div>
+          </div>
+          <div class="timeline-item info">
+            <div class="timeline-time">14:13:12</div>
+            <div class="timeline-content">Uploading to Snowflake stage</div>
+          </div>
+          <div class="timeline-item info">
+            <div class="timeline-time">14:14:02</div>
+            <div class="timeline-content">Running MERGE into WEB_DATA.RAW_DATA.serp_results</div>
+          </div>
+          <div class="timeline-item success">
+            <div class="timeline-time">14:14:34</div>
+            <div class="timeline-content">Delivery completed successfully</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logs -->
+      <div class="section">
+        <h2 class="section-title">Delivery Logs</h2>
+        <div class="log-container">
+          <div class="log-header">
+            <div class="log-header-title">delivery_sf_serp_20240201_1412.log</div>
+            <div style="display: flex; gap: 8px;">
+              <button class="log-header-btn">Download</button>
+              <button class="log-header-btn">Copy</button>
+            </div>
+          </div>
+          <div class="log-content">
+            <div class="log-entry">
+              <span class="log-time">14:12:00.123</span>
+              <span class="log-level info">INFO</span>
+              <span class="log-message">Starting delivery job <span class="highlight">del_sf_serp_20240201_1412</span></span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:12:01.456</span>
+              <span class="log-level info">INFO</span>
+              <span class="log-message">Authenticating with Snowflake using key-pair auth</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:12:01.892</span>
+              <span class="log-level success">OK</span>
+              <span class="log-message">Connected to <span class="highlight">nimble-corp.us-east-1</span></span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:12:02.234</span>
+              <span class="log-level info">INFO</span>
+              <span class="log-message">Querying SERP Results pipeline: <span class="value">156,234</span> records pending</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:12:45.678</span>
+              <span class="log-level info">INFO</span>
+              <span class="log-message">Converted to Parquet: <span class="value">42 MB</span> (compression: snappy)</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:13:12.234</span>
+              <span class="log-level info">INFO</span>
+              <span class="log-message">Uploading to stage: @WEB_DATA.RAW_DATA.%serp_results</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:14:02.567</span>
+              <span class="log-level info">INFO</span>
+              <span class="log-message">Executing MERGE: <span class="value">45,892</span> inserts, <span class="value">110,342</span> updates</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:14:34.123</span>
+              <span class="log-level success">OK</span>
+              <span class="log-message">Delivery completed in <span class="value">2m 34s</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-actions">
+        <a href="01-sync-history.html" class="btn btn-ghost">&larr; Back to History</a>
+        <button class="btn btn-primary">Retry Delivery</button>
+      </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
