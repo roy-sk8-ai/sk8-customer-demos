@@ -26,6 +26,13 @@ You will receive:
   - Logo style (text-based or image)
   - If text logo, identify any highlighted letters
 
+**IMPORTANT - Logo Sourcing:**
+- **NEVER hand-draw or recreate logos** - always source the actual logo file
+- Download the logo directly from the prospect's website (PNG, SVG, or other format)
+- Save to `prospects/<slug>/assets/logo.png` or `logo.svg`
+- If only a dark logo is available and the demo uses dark theme, the build system will apply CSS filter for visibility
+- Prefer transparent-background PNGs or SVGs when available
+
 ### 2. Industry Analysis
 - Determine the company's:
   - Industry vertical (e.g., "Security Analytics", "Data Collection", "DevOps")

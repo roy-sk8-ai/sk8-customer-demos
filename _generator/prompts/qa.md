@@ -24,8 +24,9 @@ You will receive:
 - [ ] CSS variables use correct brand colors
 - [ ] No hardcoded Nimble colors remain
 - [ ] Logo displays correctly (text or image)
-- [ ] Logo matches company's actual branding (compare with website)
-- [ ] SVG logos visible on background (white on dark theme, dark on light theme)
+- [ ] **Logo is actual company file** (not hand-drawn/recreated) - compare with website
+- [ ] Logo file exists in `prospects/<slug>/assets/` (PNG or SVG)
+- [ ] Logo visible on background (CSS filter applied for dark themes if needed)
 - [ ] No "Nimble" text appears (unless that's the prospect)
 
 ### 2. Terminology Check
