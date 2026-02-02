@@ -74,7 +74,7 @@
         <div class="sidebar-section-label">Data Delivery</div>
         <ul class="sidebar-nav">
           <li>
-            <a href="00-overview.html" class="active">
+            <a href="00-overview.html" class="active" data-tooltip="Dashboard showing all active syncs, health metrics, and recent activity">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 3v18h18"/>
                 <path d="M18 17V9"/>
@@ -85,7 +85,7 @@
             </a>
           </li>
           <li>
-            <a href="../wf4-pipeline/01-available-integrations.html">
+            <a href="../wf4-pipeline/01-available-integrations.html" data-tooltip="Configure a new data destination: warehouse, cloud storage, or API">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>
                 <line x1="12" y1="8" x2="12" y2="16"/>
@@ -95,7 +95,7 @@
             </a>
           </li>
           <li>
-            <a href="01-active-connections.html">
+            <a href="01-active-connections.html" data-tooltip="View and manage your connected data destinations">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                 <polyline points="22 4 12 14.01 9 11.01"/>
@@ -105,7 +105,7 @@
             </a>
           </li>
           <li>
-            <a href="../wf6-sync-history/01-sync-history.html">
+            <a href="../wf6-sync-history/01-sync-history.html" data-tooltip="Browse sync logs, delivery status, and historical data">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
@@ -373,5 +373,104 @@
       </main>
     </div>
   </div>
+
+  <!-- Welcome Splash Modal -->
+  <div class="splash-overlay" id="splashOverlay">
+    <div class="splash-modal">
+      <div class="splash-header">
+        <div class="splash-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3v18h18"/>
+            <path d="M18 17V9M13 17V5M8 17v-3"/>
+          </svg>
+        </div>
+        <h2 class="splash-title">Welcome to Data Delivery</h2>
+        <p class="splash-subtitle">This is where Nimble customers manage their data destinations</p>
+      </div>
+
+      <div class="splash-features">
+        <div class="splash-feature">
+          <div class="splash-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/>
+            </svg>
+          </div>
+          <div class="splash-feature-text">
+            <div class="splash-feature-title">Delivery Overview</div>
+            <div class="splash-feature-desc">Monitor all active syncs, health metrics, and recent activity at a glance</div>
+          </div>
+        </div>
+        <div class="splash-feature">
+          <div class="splash-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+          </div>
+          <div class="splash-feature-text">
+            <div class="splash-feature-title">Add Destination</div>
+            <div class="splash-feature-desc">Configure a new data destination: warehouse, cloud storage, or API endpoint</div>
+          </div>
+        </div>
+        <div class="splash-feature">
+          <div class="splash-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <div class="splash-feature-text">
+            <div class="splash-feature-title">Active Destinations</div>
+            <div class="splash-feature-desc">View and manage your connected data destinations and their settings</div>
+          </div>
+        </div>
+        <div class="splash-feature">
+          <div class="splash-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="splash-feature-text">
+            <div class="splash-feature-title">Delivery History</div>
+            <div class="splash-feature-desc">Browse sync logs, delivery status, and historical data transfers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="splash-cta">
+        <button class="splash-btn" onclick="closeSplash()">
+          Got it, start exploring
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+        <button class="splash-skip" onclick="closeSplash()">Don't show again</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check if splash was already shown this session
+    if (sessionStorage.getItem('splashShown')) {
+      document.getElementById('splashOverlay').classList.add('hidden');
+    }
+
+    function closeSplash() {
+      document.getElementById('splashOverlay').classList.add('hidden');
+      sessionStorage.setItem('splashShown', 'true');
+    }
+
+    // Close on click outside modal
+    document.getElementById('splashOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeSplash();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSplash();
+      }
+    });
+  </script>
 </body>
 </html>

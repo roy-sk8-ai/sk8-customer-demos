@@ -202,6 +202,215 @@ body {
   color: var(--success);
 }
 
+/* ==================== Tooltips ==================== */
+.sidebar-nav li {
+  position: relative;
+}
+
+.sidebar-nav a[data-tooltip] {
+  position: relative;
+}
+
+.sidebar-nav a[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--text-primary);
+  color: white;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 280px;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.sidebar-nav a[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  left: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-right-color: var(--text-primary);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.sidebar-nav a[data-tooltip]:hover::after,
+.sidebar-nav a[data-tooltip]:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==================== Welcome Splash Modal ==================== */
+.splash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.splash-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-modal {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  max-width: 520px;
+  width: 90%;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  animation: splashIn 0.3s ease;
+}
+
+@keyframes splashIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.splash-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.splash-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--nimble-purple-light);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-md);
+  color: var(--nimble-purple);
+}
+
+.splash-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.splash-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.splash-features {
+  background: var(--content-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.splash-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+}
+
+.splash-feature:not(:last-child) {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.splash-feature-icon {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--nimble-purple);
+}
+
+.splash-feature-text {
+  flex: 1;
+}
+
+.splash-feature-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.splash-feature-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.splash-cta {
+  text-align: center;
+}
+
+.splash-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--nimble-purple);
+  color: white;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.splash-btn:hover {
+  background: var(--nimble-purple-hover);
+  transform: translateY(-1px);
+}
+
+.splash-skip {
+  display: block;
+  margin-top: var(--spacing-sm);
+  font-size: 12px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.splash-skip:hover {
+  color: var(--text-secondary);
+}
+
 /* Talk to Sales Card */
 .sidebar-cta {
   margin-top: auto;
