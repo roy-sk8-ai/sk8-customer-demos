@@ -1,0 +1,133 @@
+{
+  "prospect": {
+    "name": "Quack",
+    "slug": "quack",
+    "website": "https://www.quack.ai",
+    "industry": "Customer Support AI",
+    "logoType": "image",
+    "logoImage": "logo.svg"
+  },
+  "branding": {
+    "theme": "light",
+    "primaryColor": "#EEBF49",
+    "secondaryColor": "#EE6B26",
+    "lightColor": "#FFF8E7",
+    "hoverColor": "#D4A83D"
+  },
+  "messaging": {
+    "heroTitle": "Train AI agents on real",
+    "heroHighlight": "customer interactions",
+    "heroSubtitle": "Power your trainable AI agents with seamless data pipelines. Ingest tickets, conversations, and customer data from any support platform with enterprise-grade reliability, built-in replay/backfill, and full observability.",
+    "splashTitle": "Welcome to Quack's Data Hub",
+    "splashSubtitle": "This is where Quack connects to your customer support systems. Ingest tickets, conversations, and interaction data to train your AI agents, powered by SK8.",
+    "competitors": ["Ada", "Forethought", "Thankful", "Ultimate.ai"]
+  },
+  "integrations": {
+    "category": "Data Source",
+    "categoryPlural": "Data Sources",
+    "items": [
+      {
+        "name": "Zendesk",
+        "type": "Ticketing",
+        "icon": "zendesk.svg",
+        "description": "Ingest tickets, conversations, and agent data from Zendesk to train your support AI.",
+        "dataObjects": [
+          { "name": "Tickets", "description": "Support tickets and metadata", "volume": "~150K/month" },
+          { "name": "Conversations", "description": "Full conversation threads", "volume": "~500K/month" },
+          { "name": "Users", "description": "Customer and agent profiles", "volume": "~200K records" },
+          { "name": "Macros", "description": "Canned responses and templates", "volume": "~5K records" }
+        ]
+      },
+      {
+        "name": "Freshdesk",
+        "type": "Ticketing",
+        "icon": "freshdesk.svg",
+        "description": "Sync support tickets and customer interactions from Freshdesk for AI training."
+      },
+      {
+        "name": "Intercom",
+        "type": "Ticketing",
+        "icon": "intercom.svg",
+        "description": "Ingest chat conversations and customer data from Intercom to enhance AI responses."
+      },
+      {
+        "name": "Salesforce Service Cloud",
+        "type": "Ticketing",
+        "icon": "salesforce.svg",
+        "description": "Connect to Salesforce Service Cloud to sync cases, knowledge articles, and customer data."
+      },
+      {
+        "name": "ServiceNow",
+        "type": "ITSM",
+        "icon": "servicenow.svg",
+        "description": "Ingest IT service tickets and incident data from ServiceNow."
+      },
+      {
+        "name": "Jira Service Management",
+        "type": "Ticketing",
+        "icon": "jira.svg",
+        "description": "Sync service desk tickets and request data from Jira Service Management."
+      },
+      {
+        "name": "HubSpot",
+        "type": "CRM",
+        "icon": "hubspot.svg",
+        "description": "Connect to HubSpot to sync customer records and service tickets."
+      },
+      {
+        "name": "Gmail",
+        "type": "Email",
+        "icon": "gmail.svg",
+        "description": "Ingest email conversations and support threads from Gmail."
+      },
+      {
+        "name": "Slack",
+        "type": "Messaging",
+        "icon": "slack.svg",
+        "description": "Sync customer support channels and conversation history from Slack."
+      }
+    ]
+  },
+  "navigation": {
+    "sectionLabel": "Data Sync",
+    "menuItems": [
+      {
+        "id": "overview",
+        "label": "Sync Overview",
+        "tooltip": "Dashboard showing all active syncs, health metrics, and recent activity"
+      },
+      {
+        "id": "add",
+        "label": "Add Data Source",
+        "tooltip": "Configure a new data source: ticketing system, CRM, email, or messaging"
+      },
+      {
+        "id": "active",
+        "label": "Active Sources",
+        "tooltip": "View and manage your connected data sources"
+      },
+      {
+        "id": "history",
+        "label": "Sync History",
+        "tooltip": "Browse sync logs, sync status, and historical data"
+      }
+    ]
+  },
+  "features": [
+    {
+      "title": "Real-time Sync",
+      "description": "Stream tickets as they're created",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"22 12 18 12 15 21 9 3 6 12 2 12\" /></svg>"
+    },
+    {
+      "title": "Historical Import",
+      "description": "Backfill years of ticket data",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"1 4 1 10 7 10\" /><path d=\"M3.51 15a9 9 0 1 0 2.13-9.36L1 10\" /></svg>"
+    },
+    {
+      "title": "PII Handling",
+      "description": "Automatic redaction options",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\" /></svg>"
+    }
+  ]
+}

@@ -13,6 +13,86 @@
 const fs = require('fs');
 const path = require('path');
 
+// Default data objects by integration type
+const DEFAULT_DATA_OBJECTS = {
+  // Data Warehouses
+  'Data Warehouse': [
+    { name: 'CUSTOMERS', description: 'Customer master data', volume: '~500K records' },
+    { name: 'ORDERS', description: 'Transaction history', volume: '~2.1M/month' },
+    { name: 'ANALYTICS_EVENTS', description: 'User behavior tracking', volume: '~5M/month' },
+    { name: 'PRODUCTS', description: 'Product catalog', volume: '~50K records' }
+  ],
+  'Lakehouse': [
+    { name: 'CUSTOMERS', description: 'Customer master data', volume: '~500K records' },
+    { name: 'ORDERS', description: 'Transaction history', volume: '~2.1M/month' },
+    { name: 'ANALYTICS_EVENTS', description: 'User behavior tracking', volume: '~5M/month' },
+    { name: 'PRODUCTS', description: 'Product catalog', volume: '~50K records' }
+  ],
+  // EDR
+  'EDR': [
+    { name: 'Detection Events', description: 'Endpoint alerts and detections', volume: '~2.1M/month' },
+    { name: 'Host Information', description: 'Device inventory and status', volume: '~50K records' },
+    { name: 'Incident Reports', description: 'Security incidents', volume: '~10K/month' },
+    { name: 'Threat Intel', description: 'IOCs and threat indicators', volume: '~100K records' }
+  ],
+  // SIEM
+  'SIEM': [
+    { name: 'Security Logs', description: 'Aggregated security events', volume: '~10M/month' },
+    { name: 'Correlation Alerts', description: 'Rule-based alert triggers', volume: '~500K/month' },
+    { name: 'User Activity', description: 'Authentication and access logs', volume: '~5M/month' },
+    { name: 'Network Events', description: 'Traffic and connection data', volume: '~20M/month' }
+  ],
+  // CRM
+  'CRM': [
+    { name: 'Leads', description: 'Sales leads and prospects', volume: '~100K records' },
+    { name: 'Opportunities', description: 'Sales pipeline deals', volume: '~50K records' },
+    { name: 'Accounts', description: 'Company records', volume: '~25K records' },
+    { name: 'Contacts', description: 'Contact information', volume: '~200K records' }
+  ],
+  // ITSM
+  'ITSM': [
+    { name: 'Incidents', description: 'IT incident tickets', volume: '~50K/month' },
+    { name: 'Changes', description: 'Change requests', volume: '~5K/month' },
+    { name: 'Problems', description: 'Problem records', volume: '~2K/month' },
+    { name: 'Assets', description: 'CMDB assets', volume: '~100K records' }
+  ],
+  // Object Storage
+  'Object Storage': [
+    { name: 'Log Files', description: 'Application and system logs', volume: '~1TB/month' },
+    { name: 'Data Exports', description: 'Scheduled data exports', volume: '~500GB/month' },
+    { name: 'Backups', description: 'System backups', volume: '~2TB/month' },
+    { name: 'Media Files', description: 'Documents and media', volume: '~100GB/month' }
+  ],
+  // Webhook/REST (generic)
+  'Webhook/REST': [
+    { name: 'Events', description: 'Real-time event stream', volume: '~1M/month' },
+    { name: 'Entities', description: 'Core business objects', volume: '~100K records' },
+    { name: 'Transactions', description: 'Transaction records', volume: '~500K/month' },
+    { name: 'Metadata', description: 'System metadata', volume: '~10K records' }
+  ],
+  // Ticketing/Support
+  'Ticketing': [
+    { name: 'Tickets', description: 'Support tickets and cases', volume: '~100K/month' },
+    { name: 'Conversations', description: 'Customer conversations', volume: '~500K/month' },
+    { name: 'Agents', description: 'Support agent data', volume: '~500 records' },
+    { name: 'Customers', description: 'Customer profiles', volume: '~1M records' }
+  ],
+  // Email
+  'Email': [
+    { name: 'Messages', description: 'Email messages and threads', volume: '~2M/month' },
+    { name: 'Contacts', description: 'Email contacts', volume: '~500K records' },
+    { name: 'Labels', description: 'Email labels and folders', volume: '~1K records' },
+    { name: 'Attachments', description: 'Email attachments metadata', volume: '~500K/month' }
+  ],
+  // Messaging
+  'Messaging': [
+    { name: 'Messages', description: 'Chat messages', volume: '~5M/month' },
+    { name: 'Channels', description: 'Channels and groups', volume: '~10K records' },
+    { name: 'Users', description: 'User profiles', volume: '~50K records' },
+    { name: 'Reactions', description: 'Message reactions', volume: '~1M/month' }
+  ]
+};
+
 // Paths
 const ROOT = path.join(__dirname, '..');
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
@@ -138,28 +218,8 @@ function processTemplate(content, config) {
   // Fix nimble-ui references to app-ui
   result = result.replace(/nimble-ui/g, 'app-ui');
 
-  // Generate integration cards from config
-  if (result.includes('{{#integrations.cards}}')) {
-    let cardsHtml = '';
-    for (const item of config.integrations.items) {
-      const description = item.description || `Connect to ${item.name} for ${item.type} integration.`;
-      cardsHtml += `
-          <div class="card integration-card">
-            <div class="integration-icon">
-              <img src="../assets/logos/${item.icon}" alt="${item.name}" width="28" height="28">
-            </div>
-            <div class="flex items-center gap-sm mb-sm">
-              <span class="integration-name">${item.name}</span>
-              <span class="badge badge-success">Available</span>
-            </div>
-            <p class="integration-description">${description}</p>
-            <a href="02-select-account.html" class="btn btn-primary btn-sm">Connect</a>
-          </div>`;
-    }
-    result = result.replace(/\{\{#integrations\.cards\}\}/g, cardsHtml);
-  }
-
   // Replace default integration names with config integrations throughout all pages
+  // NOTE: This must run BEFORE card generation so it only affects hardcoded template text
   // Map the first 4 config integrations to replace default ones
   const items = config.integrations.items;
   if (items && items.length >= 1) {
@@ -186,6 +246,90 @@ function processTemplate(content, config) {
     result = result.replace(/Internal Analytics API/g, `${items[3].name} API`);
     result = result.replace(/Custom API \/ Webhook/g, items[3].name);
     result = result.replace(/api\.svg/g, items[3].icon);
+  }
+
+  // Generate data objects from config or defaults
+  if (result.includes('{{#dataObjects}}')) {
+    // Get the first integration's data objects (for the select-data page)
+    const firstIntegration = items && items[0];
+    let dataObjects = [];
+
+    if (firstIntegration) {
+      // Use config data objects if defined, otherwise use defaults based on type
+      dataObjects = firstIntegration.dataObjects || DEFAULT_DATA_OBJECTS[firstIntegration.type] || [];
+    }
+
+    let dataObjectsHtml = '';
+    dataObjects.forEach((obj, index) => {
+      const isSelected = index < 4; // Select first 4 by default
+      const statusBadge = isSelected ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Available</span>';
+      dataObjectsHtml += `
+            <label class="card selection-card${isSelected ? ' selected' : ''}" onclick="this.classList.toggle('selected')">
+              <input type="checkbox"${isSelected ? ' checked' : ''}>
+              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="selection-content">
+                <div class="selection-title">${obj.name}</div>
+                <div class="selection-meta">${obj.description || ''} &bull; ${obj.volume || ''}</div>
+              </div>
+              ${statusBadge}
+            </label>`;
+    });
+    result = result.replace(/\{\{#dataObjects\}\}[\s\S]*?\{\{\/dataObjects\}\}/g, dataObjectsHtml);
+  }
+
+  // Sync terminology replacements (delivery → sync)
+  // Be careful with word boundaries and capitalization
+  result = result.replace(/Data Delivery Overview/g, 'Data Sync Overview');
+  result = result.replace(/Delivery Overview/g, 'Sync Overview');
+  result = result.replace(/Delivery History/g, 'Sync History');
+  result = result.replace(/Delivery Settings/g, 'Sync Settings');
+  result = result.replace(/Delivery Frequency/g, 'Sync Frequency');
+  result = result.replace(/Delivery Details/g, 'Sync Details');
+  result = result.replace(/Delivery Timeline/g, 'Sync Timeline');
+  result = result.replace(/Delivery Logs/g, 'Sync Logs');
+  result = result.replace(/Delivery ID/g, 'Sync ID');
+  result = result.replace(/delivery job/g, 'sync job');
+  result = result.replace(/Delivery job/g, 'Sync job');
+  result = result.replace(/delivery completed/g, 'sync completed');
+  result = result.replace(/Delivery completed/g, 'Sync completed');
+  result = result.replace(/View Delivery Dashboard/g, 'View Sync Dashboard');
+  result = result.replace(/Pause Delivery/g, 'Pause Sync');
+  result = result.replace(/Retry Delivery/g, 'Retry Sync');
+  result = result.replace(/Recent Deliveries/g, 'Recent Syncs');
+  result = result.replace(/Total Deliveries/g, 'Total Syncs');
+  result = result.replace(/Data Delivery/g, 'Data Sync');
+  result = result.replace(/Initial Data Delivery/g, 'Initial Data Sync');
+  result = result.replace(/Data delivered/gi, 'Data synced');
+  result = result.replace(/data delivered/gi, 'data synced');
+  result = result.replace(/Records Delivered/g, 'Records Synced');
+  result = result.replace(/records delivered/g, 'records synced');
+  result = result.replace(/delivery status/g, 'sync status');
+  result = result.replace(/delivery configuration/g, 'sync configuration');
+  result = result.replace(/delivery configurations/g, 'sync configurations');
+  result = result.replace(/ delivered/g, ' synced');
+  result = result.replace(/ deliveries/g, ' syncs');
+  result = result.replace(/delivery_/g, 'sync_');
+  result = result.replace(/del_/g, 'sync_');
+
+  // Generate integration cards from config (AFTER all replacements to preserve card text)
+  if (result.includes('{{#integrations.cards}}')) {
+    let cardsHtml = '';
+    for (const item of config.integrations.items) {
+      const description = item.description || `Ingest ${item.type.toLowerCase()} data from ${item.name} into your platform.`;
+      cardsHtml += `
+          <div class="card integration-card">
+            <div class="integration-icon">
+              <img src="../assets/logos/${item.icon}" alt="${item.name}" width="28" height="28">
+            </div>
+            <div class="flex items-center gap-sm mb-sm">
+              <span class="integration-name">${item.name}</span>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <p class="integration-description">${description}</p>
+            <a href="02-select-account.html" class="btn btn-primary btn-sm">Connect</a>
+          </div>`;
+    }
+    result = result.replace(/\{\{#integrations\.cards\}\}/g, cardsHtml);
   }
 
   return result;

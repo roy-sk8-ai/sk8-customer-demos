@@ -26,20 +26,31 @@
     "category": "Source",
     "categoryPlural": "Sources",
     "items": [
-      { "name": "Snowflake", "type": "Data Warehouse", "icon": "snowflake.svg" },
-      { "name": "Databricks", "type": "Lakehouse", "icon": "databricks.svg" },
-      { "name": "BigQuery", "type": "Data Warehouse", "icon": "bigquery.svg" },
-      { "name": "AWS S3", "type": "Object Storage", "icon": "s3.svg" },
-      { "name": "GCS", "type": "Object Storage", "icon": "gcs.svg" },
-      { "name": "Custom API", "type": "Webhook/REST", "icon": "api.svg" }
+      {
+        "name": "Snowflake",
+        "type": "Data Warehouse",
+        "icon": "snowflake.svg",
+        "description": "Ingest customer and transaction data from your Snowflake data warehouse.",
+        "dataObjects": [
+          { "name": "CUSTOMERS", "description": "Customer master data", "volume": "~500K records" },
+          { "name": "ORDERS", "description": "Transaction history", "volume": "~2.1M/month" },
+          { "name": "ANALYTICS_EVENTS", "description": "User behavior tracking", "volume": "~5M/month" },
+          { "name": "PRODUCTS", "description": "Product catalog", "volume": "~50K records" }
+        ]
+      },
+      { "name": "Databricks", "type": "Lakehouse", "icon": "databricks.svg", "description": "Sync data from your Databricks lakehouse for unified analytics." },
+      { "name": "BigQuery", "type": "Data Warehouse", "icon": "bigquery.svg", "description": "Connect to BigQuery to ingest analytics and reporting data." },
+      { "name": "AWS S3", "type": "Object Storage", "icon": "s3.svg", "description": "Ingest files and data exports from your S3 buckets." },
+      { "name": "GCS", "type": "Object Storage", "icon": "gcs.svg", "description": "Sync data from Google Cloud Storage buckets." },
+      { "name": "Custom API", "type": "Webhook/REST", "icon": "api.svg", "description": "Connect to any REST API or webhook endpoint to ingest custom data." }
     ]
   },
   "navigation": {
-    "sectionLabel": "Data Delivery",
+    "sectionLabel": "Data Sync",
     "menuItems": [
       {
         "id": "overview",
-        "label": "Delivery Overview",
+        "label": "Sync Overview",
         "tooltip": "Dashboard showing all active syncs, health metrics, and recent activity"
       },
       {
@@ -54,8 +65,8 @@
       },
       {
         "id": "history",
-        "label": "Delivery History",
-        "tooltip": "Browse sync logs, delivery status, and historical data"
+        "label": "Sync History",
+        "tooltip": "Browse sync logs, sync status, and historical data"
       }
     ]
   },

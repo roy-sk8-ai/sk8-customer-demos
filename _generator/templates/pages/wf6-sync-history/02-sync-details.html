@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Delivery Details - Nimble</title>
+  <title>Sync Details - Nimble</title>
   <link rel="stylesheet" href="../styles.css">
   <link rel="icon" type="image/png" href="../assets/favicon.png">
   <style>
@@ -213,9 +213,9 @@
       <main class="main-content">
       <!-- Breadcrumb -->
       <div style="font-size: 13px; color: var(--charcoal-light); margin-bottom: var(--spacing-md);">
-        <a href="01-sync-history.html" style="color: var(--charcoal); text-decoration: underline;">Delivery History</a>
+        <a href="01-sync-history.html" style="color: var(--charcoal); text-decoration: underline;">Sync History</a>
         <span> / </span>
-        <span>Delivery Details</span>
+        <span>Sync Details</span>
       </div>
 
       <!-- Header -->
@@ -226,7 +226,7 @@
           </div>
           <div>
             <h1 class="detail-title">SERP Results → Snowflake Production</h1>
-            <div class="detail-meta">Delivery ID: del_sf_serp_20240201_1412 &bull; Today, 2:12 PM</div>
+            <div class="detail-meta">Sync ID: sync_sf_serp_20240201_1412 &bull; Today, 2:12 PM</div>
           </div>
         </div>
         <span class="badge badge-success" style="font-size: 14px; padding: 8px 16px;">Success</span>
@@ -236,7 +236,7 @@
       <div class="stats-row">
         <div class="stat-card">
           <div class="stat-card-value">156,234</div>
-          <div class="stat-card-label">Records Delivered</div>
+          <div class="stat-card-label">Records Synced</div>
         </div>
         <div class="stat-card">
           <div class="stat-card-value">42 MB</div>
@@ -277,11 +277,11 @@
 
       <!-- Timeline -->
       <div class="card section">
-        <h2 class="section-title">Delivery Timeline</h2>
+        <h2 class="section-title">Sync Timeline</h2>
         <div class="timeline">
           <div class="timeline-item success">
             <div class="timeline-time">14:12:00</div>
-            <div class="timeline-content">Delivery job started</div>
+            <div class="timeline-content">Sync job started</div>
           </div>
           <div class="timeline-item info">
             <div class="timeline-time">14:12:01</div>
@@ -305,17 +305,17 @@
           </div>
           <div class="timeline-item success">
             <div class="timeline-time">14:14:34</div>
-            <div class="timeline-content">Delivery completed successfully</div>
+            <div class="timeline-content">Sync completed successfully</div>
           </div>
         </div>
       </div>
 
       <!-- Logs -->
       <div class="section">
-        <h2 class="section-title">Delivery Logs</h2>
+        <h2 class="section-title">Sync Logs</h2>
         <div class="log-container">
           <div class="log-header">
-            <div class="log-header-title">delivery_sf_serp_20240201_1412.log</div>
+            <div class="log-header-title">sync_sf_serp_20240201_1412.log</div>
             <div style="display: flex; gap: 8px;">
               <button class="log-header-btn">Download</button>
               <button class="log-header-btn">Copy</button>
@@ -325,7 +325,7 @@
             <div class="log-entry">
               <span class="log-time">14:12:00.123</span>
               <span class="log-level info">INFO</span>
-              <span class="log-message">Starting delivery job <span class="highlight">del_sf_serp_20240201_1412</span></span>
+              <span class="log-message">Starting sync job <span class="highlight">sync_sf_serp_20240201_1412</span></span>
             </div>
             <div class="log-entry">
               <span class="log-time">14:12:01.456</span>
@@ -360,7 +360,7 @@
             <div class="log-entry">
               <span class="log-time">14:14:34.123</span>
               <span class="log-level success">OK</span>
-              <span class="log-message">Delivery completed in <span class="value">2m 34s</span></span>
+              <span class="log-message">Sync completed in <span class="value">2m 34s</span></span>
             </div>
           </div>
         </div>
@@ -369,7 +369,7 @@
       <!-- Footer -->
       <div class="footer-actions">
         <a href="01-sync-history.html" class="btn btn-ghost">&larr; Back to History</a>
-        <button class="btn btn-primary">Retry Delivery</button>
+        <button class="btn btn-primary">Retry Sync</button>
       </div>
       </main>
     </div>

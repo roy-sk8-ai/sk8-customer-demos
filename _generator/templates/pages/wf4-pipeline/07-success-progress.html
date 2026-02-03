@@ -80,7 +80,7 @@
 
             <h1 class="success-title">Source Connected!</h1>
             <p class="success-description">
-              Your Snowflake source is now configured. Data delivery will begin with the next scheduled batch.
+              Your Snowflake source is now configured. Data sync will begin with the next scheduled batch.
             </p>
 
             <!-- Integration Summary -->
@@ -97,7 +97,7 @@
             <!-- Initial Sync Progress -->
             <div class="progress-section">
               <div class="progress-header">
-                <span class="progress-title">Initial Data Delivery</span>
+                <span class="progress-title">Initial Data Sync</span>
                 <span class="progress-percent">67%</span>
               </div>
               <div class="progress-bar">
@@ -107,7 +107,7 @@
               <div class="progress-stats">
                 <div class="stat-item">
                   <div class="stat-value">3.2M</div>
-                  <div class="stat-label">Records Delivered</div>
+                  <div class="stat-label">Records Synced</div>
                 </div>
                 <div class="stat-item">
                   <div class="stat-value">4</div>
@@ -128,28 +128,28 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
-                  Initial historical data is being delivered now
+                  Initial historical data is being synced now
                 </li>
                 <li style="display: flex; align-items: flex-start; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm);">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--nimble-purple)" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
                     <circle cx="12" cy="12" r="10"/>
                     <polyline points="12 6 12 12 16 14"/>
                   </svg>
-                  Hourly batches will start automatically
+                  Hourly syncs will start automatically
                 </li>
                 <li style="display: flex; align-items: flex-start; gap: var(--spacing-sm);">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--nimble-purple)" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
-                  You'll receive an email when initial delivery completes
+                  You'll receive an email when initial sync completes
                 </li>
               </ul>
             </div>
 
             <!-- Actions -->
             <div class="success-actions">
-              <a href="../wf5-manage-connections/00-overview.html" class="btn btn-primary">View Delivery Dashboard</a>
+              <a href="../wf5-manage-connections/00-overview.html" class="btn btn-primary">View Sync Dashboard</a>
               <a href="01-available-integrations.html" class="btn btn-secondary">Add Another Source</a>
             </div>
           </div>

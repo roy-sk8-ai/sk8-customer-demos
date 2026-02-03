@@ -38,8 +38,8 @@
         </div>
 
         <div class="content-header">
-          <h1 class="page-title">Select Data to Deliver</h1>
-          <p class="page-subtitle">Choose which Nimble pipelines to send to Snowflake</p>
+          <h1 class="page-title">Select Data</h1>
+          <p class="page-subtitle">Choose which data objects to sync from Snowflake</p>
         </div>
 
         <div class="form-group">
@@ -50,71 +50,13 @@
           <div class="selection-card selected" style="background: var(--border-light); border: none; padding: var(--spacing-md); margin-bottom: var(--spacing-md);" onclick="this.classList.toggle('selected')">
             <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="selection-content">
-              <div class="selection-title">Select All Pipelines</div>
-              <div class="selection-meta">6 pipelines available</div>
+              <div class="selection-title">Select All Data Objects</div>
+              <div class="selection-meta">Select all available data objects</div>
             </div>
           </div>
 
           <div class="selection-list">
-            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
-              <input type="checkbox" checked>
-              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="selection-content">
-                <div class="selection-title">SERP Results</div>
-                <div class="selection-meta">Google, Bing search results &bull; ~2.1M records/month</div>
-              </div>
-              <span class="badge badge-success">Active</span>
-            </label>
-
-            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
-              <input type="checkbox" checked>
-              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="selection-content">
-                <div class="selection-title">E-commerce Products</div>
-                <div class="selection-meta">Amazon, Walmart product data &bull; ~1.5M records/month</div>
-              </div>
-              <span class="badge badge-success">Active</span>
-            </label>
-
-            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
-              <input type="checkbox" checked>
-              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="selection-content">
-                <div class="selection-title">Maps & Places</div>
-                <div class="selection-meta">Google Maps, business listings &bull; ~890K records/month</div>
-              </div>
-              <span class="badge badge-success">Active</span>
-            </label>
-
-            <label class="card selection-card selected" onclick="this.classList.toggle('selected')">
-              <input type="checkbox" checked>
-              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="selection-content">
-                <div class="selection-title">Social Profiles</div>
-                <div class="selection-meta">LinkedIn, company profiles &bull; ~456K records/month</div>
-              </div>
-              <span class="badge badge-success">Active</span>
-            </label>
-
-            <label class="card selection-card" onclick="this.classList.toggle('selected')">
-              <input type="checkbox">
-              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="selection-content">
-                <div class="selection-title">Real Estate Listings</div>
-                <div class="selection-meta">Property listings, prices &bull; ~234K records/month</div>
-              </div>
-              <span class="badge badge-neutral">Paused</span>
-            </label>
-
-            <label class="card selection-card" onclick="this.classList.toggle('selected')">
-              <input type="checkbox">
-              <div class="checkbox-indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="selection-content">
-                <div class="selection-title">Job Postings</div>
-                <div class="selection-meta">LinkedIn, Indeed jobs &bull; ~567K records/month</div>
-              </div>
-              <span class="badge badge-neutral">Paused</span>
-            </label>
+            {{#dataObjects}}{{/dataObjects}}
           </div>
         </div>
 

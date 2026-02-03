@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Delivery Settings - Nimble</title>
+  <title>Sync Settings - Nimble</title>
   <link rel="stylesheet" href="../styles.css">
   <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
@@ -34,19 +34,19 @@
           <div class="step complete"></div>
           <div class="step active"></div>
           <div class="step"></div>
-          <span class="step-label">Step 4 of 5 - Delivery Settings</span>
+          <span class="step-label">Step 4 of 5 - Sync Settings</span>
         </div>
 
         <div class="content-header">
-          <h1 class="page-title">Configure Delivery Settings</h1>
-          <p class="page-subtitle">Set up how and when data is delivered to Snowflake</p>
+          <h1 class="page-title">Configure Sync Settings</h1>
+          <p class="page-subtitle">Set up how and when data is synced from Snowflake</p>
         </div>
 
         <div class="card">
-          <!-- Delivery Frequency -->
+          <!-- Sync Frequency -->
           <div class="section">
-            <h3 style="font-weight: 600; font-size: 16px; margin-bottom: var(--spacing-sm);">Delivery Frequency</h3>
-            <p class="text-sm text-muted mb-md">How often should new data be delivered?</p>
+            <h3 style="font-weight: 600; font-size: 16px; margin-bottom: var(--spacing-sm);">Sync Frequency</h3>
+            <p class="text-sm text-muted mb-md">How often should data be synced?</p>
 
             <div class="selection-list">
               <label class="card selection-card" onclick="this.parentElement.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected')); this.classList.add('selected')">
@@ -54,7 +54,7 @@
                 <div class="radio-indicator"></div>
                 <div class="selection-content">
                   <div class="selection-title">Real-time Streaming</div>
-                  <div class="selection-meta">Data delivered as soon as it's collected (Snowpipe)</div>
+                  <div class="selection-meta">Data synced as soon as it's available (Snowpipe)</div>
                 </div>
                 <span class="badge badge-primary">Premium</span>
               </label>
@@ -64,7 +64,7 @@
                 <div class="radio-indicator"></div>
                 <div class="selection-content">
                   <div class="selection-title">Hourly Batches</div>
-                  <div class="selection-meta">Data delivered every hour in batches</div>
+                  <div class="selection-meta">Data synced every hour in batches</div>
                 </div>
                 <span class="badge badge-success">Recommended</span>
               </label>
@@ -74,7 +74,7 @@
                 <div class="radio-indicator"></div>
                 <div class="selection-content">
                   <div class="selection-title">Daily Batches</div>
-                  <div class="selection-meta">Data delivered once per day at a scheduled time</div>
+                  <div class="selection-meta">Data synced once per day at a scheduled time</div>
                 </div>
               </label>
             </div>

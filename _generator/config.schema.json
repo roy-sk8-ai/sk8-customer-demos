@@ -128,6 +128,28 @@
               "icon": {
                 "type": "string",
                 "description": "Icon filename (e.g., 'snowflake.svg')"
+              },
+              "dataObjects": {
+                "type": "array",
+                "description": "Data objects available from this integration",
+                "items": {
+                  "type": "object",
+                  "required": ["name"],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the data object (e.g., 'CUSTOMERS', 'Detection Events')"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Brief description of the data object"
+                    },
+                    "volume": {
+                      "type": "string",
+                      "description": "Estimated data volume (e.g., '~2.1M/month')"
+                    }
+                  }
+                }
               }
             }
           }

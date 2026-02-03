@@ -26,10 +26,54 @@
     "category": "Connector",
     "categoryPlural": "Connectors",
     "items": [
-      { "name": "CrowdStrike", "type": "EDR", "icon": "crowdstrike.svg", "description": "Ingest endpoint detection and response data from CrowdStrike Falcon for automated threat analysis." },
-      { "name": "SentinelOne", "type": "EDR", "icon": "sentinelone.svg", "description": "Connect to SentinelOne for real-time endpoint security event streaming and correlation." },
-      { "name": "Splunk", "type": "SIEM", "icon": "splunk.svg", "description": "Integrate with Splunk to enrich security data and automate incident response workflows." },
-      { "name": "ServiceNow", "type": "ITSM", "icon": "servicenow.svg", "description": "Create tickets and manage incidents automatically through ServiceNow ITSM integration." },
+      {
+        "name": "CrowdStrike",
+        "type": "EDR",
+        "icon": "crowdstrike.svg",
+        "description": "Ingest endpoint detection and response data from CrowdStrike Falcon for automated threat analysis.",
+        "dataObjects": [
+          { "name": "Detection Events", "description": "Endpoint alerts and detections", "volume": "~2.1M/month" },
+          { "name": "Host Information", "description": "Device inventory and status", "volume": "~50K records" },
+          { "name": "Incident Reports", "description": "Security incidents", "volume": "~10K/month" },
+          { "name": "Threat Intel", "description": "IOCs and threat indicators", "volume": "~100K records" }
+        ]
+      },
+      {
+        "name": "SentinelOne",
+        "type": "EDR",
+        "icon": "sentinelone.svg",
+        "description": "Connect to SentinelOne for real-time endpoint security event streaming and correlation.",
+        "dataObjects": [
+          { "name": "Detection Events", "description": "Endpoint alerts and detections", "volume": "~1.8M/month" },
+          { "name": "Host Information", "description": "Agent and device data", "volume": "~45K records" },
+          { "name": "Incident Reports", "description": "Threat incidents", "volume": "~8K/month" },
+          { "name": "Threat Intel", "description": "IOCs and threat indicators", "volume": "~80K records" }
+        ]
+      },
+      {
+        "name": "Splunk",
+        "type": "SIEM",
+        "icon": "splunk.svg",
+        "description": "Integrate with Splunk to enrich security data and automate incident response workflows.",
+        "dataObjects": [
+          { "name": "Security Logs", "description": "Aggregated security events", "volume": "~10M/month" },
+          { "name": "Correlation Alerts", "description": "Rule-based alert triggers", "volume": "~500K/month" },
+          { "name": "User Activity", "description": "Authentication and access logs", "volume": "~5M/month" },
+          { "name": "Network Events", "description": "Traffic and connection data", "volume": "~20M/month" }
+        ]
+      },
+      {
+        "name": "ServiceNow",
+        "type": "ITSM",
+        "icon": "servicenow.svg",
+        "description": "Create tickets and manage incidents automatically through ServiceNow ITSM integration.",
+        "dataObjects": [
+          { "name": "Incidents", "description": "IT incident tickets", "volume": "~50K/month" },
+          { "name": "Changes", "description": "Change requests", "volume": "~5K/month" },
+          { "name": "Problems", "description": "Problem records", "volume": "~2K/month" },
+          { "name": "Assets", "description": "CMDB assets", "volume": "~100K records" }
+        ]
+      },
       { "name": "AWS S3", "type": "Object Storage", "icon": "s3.svg", "description": "Export security logs and artifacts to S3 buckets for long-term retention and analysis." },
       { "name": "Custom API", "type": "Webhook/REST", "icon": "api.svg", "description": "Build custom integrations via REST API endpoints or webhooks for any security tool." }
     ]

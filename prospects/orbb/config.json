@@ -1,0 +1,91 @@
+{
+  "prospect": {
+    "name": "Orbb",
+    "slug": "orbb",
+    "website": "https://orbb.com",
+    "industry": "Relationship Intelligence",
+    "logoType": "image",
+    "logoImage": "logo.png"
+  },
+  "branding": {
+    "theme": "light",
+    "primaryColor": "#E07B5A",
+    "secondaryColor": "#2F4858",
+    "lightColor": "#FDF0ED",
+    "hoverColor": "#C96A4C"
+  },
+  "messaging": {
+    "heroTitle": "Ingest relationship data",
+    "heroHighlight": "reliably at scale",
+    "heroSubtitle": "Power your Relationship AI platform with seamless data pipelines. Ingest calendar, email, and CRM data from customer environments with enterprise-grade SLAs, built-in replay/backfill, and full observability.",
+    "splashTitle": "Welcome to Orbb's Data Hub",
+    "splashSubtitle": "This is where Orbb customers manage their data integrations. Connect to CRMs, calendars, and data warehouses with enterprise-grade reliability powered by SK8.",
+    "competitors": ["Apollo.io", "ZoomInfo", "Gong", "6sense"]
+  },
+  "integrations": {
+    "category": "Data Source",
+    "categoryPlural": "Data Sources",
+    "items": [
+      {
+        "name": "Salesforce",
+        "type": "CRM",
+        "icon": "salesforce.svg",
+        "description": "Ingest contact, account, and opportunity data from Salesforce to power relationship mapping.",
+        "dataObjects": [
+          { "name": "Contacts", "description": "Contact records and details", "volume": "~200K records" },
+          { "name": "Accounts", "description": "Company and organization data", "volume": "~50K records" },
+          { "name": "Opportunities", "description": "Sales pipeline and deals", "volume": "~100K records" },
+          { "name": "Activities", "description": "Tasks, events, and interactions", "volume": "~500K/month" }
+        ]
+      },
+      { "name": "HubSpot", "type": "CRM", "icon": "hubspot.svg", "description": "Connect to HubSpot CRM to sync contacts, companies, and deal data for relationship insights." },
+      { "name": "Google Calendar", "type": "Calendar", "icon": "gcal.svg", "description": "Stream calendar events and meeting data to map team relationships and engagement patterns." },
+      { "name": "Gmail", "type": "Email", "icon": "gmail.svg", "description": "Ingest email metadata and communication patterns to enrich relationship intelligence and contact mapping." },
+      { "name": "Snowflake", "type": "Data Warehouse", "icon": "snowflake.svg", "description": "Export relationship intelligence data to Snowflake for advanced analytics and reporting." },
+      { "name": "AWS S3", "type": "Object Storage", "icon": "s3.svg", "description": "Store processed relationship data and exports in S3 buckets for long-term retention." },
+      { "name": "Custom API", "type": "Webhook/REST", "icon": "api.svg", "description": "Build custom integrations via REST API endpoints or webhooks for any data source." }
+    ]
+  },
+  "navigation": {
+    "sectionLabel": "Data Sync",
+    "menuItems": [
+      {
+        "id": "overview",
+        "label": "Sync Overview",
+        "tooltip": "Dashboard showing all active syncs, health metrics, and recent activity"
+      },
+      {
+        "id": "add",
+        "label": "Add Data Source",
+        "tooltip": "Configure a new data source: CRM, calendar, email, or custom API"
+      },
+      {
+        "id": "active",
+        "label": "Active Sources",
+        "tooltip": "View and manage your connected data sources"
+      },
+      {
+        "id": "history",
+        "label": "Sync History",
+        "tooltip": "Browse sync logs, sync status, and historical data"
+      }
+    ]
+  },
+  "features": [
+    {
+      "title": "On-Premise Deployment",
+      "description": "Data never leaves customer environments",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\" /><path d=\"M7 11V7a5 5 0 0 1 10 0v4\" /></svg>"
+    },
+    {
+      "title": "Replay & Backfill",
+      "description": "Recover and reprocess historical data",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"1 4 1 10 7 10\" /><path d=\"M3.51 15a9 9 0 1 0 2.13-9.36L1 10\" /></svg>"
+    },
+    {
+      "title": "SLA Guarantees",
+      "description": "Enterprise-grade reliability and observability",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\" /><polyline points=\"9 12 11 14 15 10\" /></svg>"
+    }
+  ]
+}
