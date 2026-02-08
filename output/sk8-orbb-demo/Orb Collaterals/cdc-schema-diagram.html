@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SK8 &middot; MongoDB → BigQuery CDC Schema</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    background: #F8FAFC;
+    color: #0F172A;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    user-select: none;
+  }
+
+  #root { height: 100vh; width: 100vw; }
+
+  .toolbar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    display: flex;
+    gap: 6px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .toolbar button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .toolbar button:hover {
+    background: #F1F5F9;
+    color: #0F172A;
+    border-color: #E2E8F0;
+  }
+
+  .toolbar button.active {
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border-color: #BFDBFE;
+  }
+
+  .zoom-info {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 100;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #94A3B8;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .hint {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 100;
+    font-size: 11px;
+    color: #94A3B8;
+    display: flex;
+    gap: 12px;
+  }
+
+  .hint span { display: flex; align-items: center; gap: 4px; }
+
+  .hint kbd {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useRef, useEffect, useCallback, useMemo } = React;
+
+/* ───────── DATA ───────── */
+
+const MONGO_GROUPS = [
+  {
+    id: "core", label: "Core Entities", db: "server-stg",
+    color: "#0F766E", bg: "#F0FDFA", border: "#99F6E4",
+    collections: [
+      { id: "accounts", name: "accounts", detail: "5.3M docs", arrays: ["domains[]", "investors[]", "technologies[]"] },
+      { id: "contacts", name: "contacts", detail: "9.5M docs", arrays: ["emails[]"] },
+      { id: "organizations", name: "organizations", detail: "114 docs", arrays: ["domains[]"] },
+      { id: "users", name: "users", detail: "1K docs", arrays: [] },
+    ],
+  },
+  {
+    id: "rel", label: "Relationships", db: "server-stg",
+    color: "#4338CA", bg: "#EEF2FF", border: "#C7D2FE",
+    collections: [
+      { id: "best_paths", name: "best_paths", detail: "8.1M docs", arrays: ["connectionTypes[]"] },
+      { id: "communication", name: "communication", detail: "1.8M docs", arrays: ["closestColleagues[]"] },
+      { id: "rap", name: "rap", detail: "45 docs", arrays: ["paths[]", "statuses[]"] },
+      { id: "intro_requests", name: "intro_requests", detail: "320 docs", arrays: ["targets[]"] },
+    ],
+  },
+  {
+    id: "lists", label: "Lists & Insights", db: "server-stg",
+    color: "#9333EA", bg: "#FAF5FF", border: "#E9D5FF",
+    collections: [
+      { id: "custom_lists", name: "custom_lists", detail: "5.3K docs", arrays: ["collaborators[]"] },
+      { id: "custom_list_members", name: "custom_list_members", detail: "4.1M docs", arrays: [] },
+      { id: "insights", name: "insights", detail: "436K docs", arrays: ["statuses[]"] },
+    ],
+  },
+  {
+    id: "udata", label: "User Data", db: "server-stg",
+    color: "#15803D", bg: "#F0FDF4", border: "#BBF7D0",
+    collections: [
+      { id: "user_directory", name: "user_directory", detail: "27K docs", arrays: ["emails[]", "phones[]", "languages[]"] },
+      { id: "icps", name: "icps", detail: "21 docs", arrays: ["countries[]", "industries[]", "seniorities[]", "departments[]", "companySizeRanges[]"] },
+    ],
+  },
+  {
+    id: "crmv2", label: "CRM v2 (Normalized)", db: "staging_tenant_*",
+    color: "#C2410C", bg: "#FFF7ED", border: "#FED7AA",
+    collections: [
+      { id: "account_v2", name: "account_v2" },
+      { id: "contact_v2", name: "contact_v2" },
+      { id: "lead_v2", name: "lead_v2" },
+      { id: "opportunity_v2", name: "opportunity_v2" },
+      { id: "owner_v2", name: "owner_v2" },
+    ],
+  },
+  {
+    id: "crmraw", label: "CRM Raw", db: "staging_tenant_*",
+    color: "#B45309", bg: "#FFFBEB", border: "#FDE68A",
+    collections: [
+      { id: "crm_account", name: "crm_account" },
+      { id: "crm_contact", name: "crm_contact" },
+      { id: "crm_lead", name: "crm_lead" },
+      { id: "crm_opportunity", name: "crm_opportunity" },
+      { id: "crm_owner", name: "crm_owner" },
+    ],
+  },
+];
+
+const BQ_GROUPS = [
+  {
+    id: "bq_main", label: "Main Tables", sublabel: "with ARRAY columns",
+    color: "#15803D", bg: "#F0FDF4", border: "#BBF7D0",
+    tables: [
+      { id: "bq_organizations", name: "bq_organizations", arrays: ["domains[]"] },
+      { id: "bq_users", name: "bq_users", arrays: [] },
+      { id: "bq_accounts", name: "bq_accounts", arrays: ["domains[]", "investors[]", "technologies[]"] },
+      { id: "bq_contacts", name: "bq_contacts", arrays: [] },
+      { id: "bq_best_paths", name: "bq_best_paths", arrays: ["connection_types[]"] },
+      { id: "bq_communication", name: "bq_communication", arrays: [] },
+      { id: "bq_rap", name: "bq_rap", arrays: [] },
+      { id: "bq_insights", name: "bq_insights", arrays: [] },
+      { id: "bq_custom_lists", name: "bq_custom_lists", arrays: ["collaborator_ids[]"] },
+      { id: "bq_user_directory", name: "bq_user_directory", arrays: ["languages[]"] },
+      { id: "bq_icps", name: "bq_icps", arrays: ["countries[]", "industries[]", "seniorities[]", "departments[]", "size_ranges[]"] },
+    ],
+  },
+  {
+    id: "bq_crm", label: "Unified CRM Tables", sublabel: "v2 + raw consolidated",
+    color: "#C2410C", bg: "#FFF7ED", border: "#FED7AA",
+    tables: [
+      { id: "bq_crm_accounts", name: "bq_crm_accounts", arrays: ["properties JSON"] },
+      { id: "bq_crm_contacts", name: "bq_crm_contacts", arrays: ["properties JSON"] },
+      { id: "bq_crm_leads", name: "bq_crm_leads", arrays: ["properties JSON"] },
+      { id: "bq_crm_opportunities", name: "bq_crm_opportunities", arrays: ["properties JSON"] },
+      { id: "bq_crm_owners", name: "bq_crm_owners", arrays: ["properties JSON"] },
+    ],
+  },
+  {
+    id: "bq_child", label: "Child Tables", sublabel: "9 tables, kept for queryability",
+    color: "#1D4ED8", bg: "#EFF6FF", border: "#BFDBFE",
+    tables: [
+      { id: "bq_contact_emails", name: "bq_contact_emails", note: "searchable by email" },
+      { id: "bq_account_funding_rounds", name: "bq_account_funding_rounds", note: "multiple attributes" },
+      { id: "bq_user_directory_emails", name: "bq_user_directory_emails", note: "searchable, has type" },
+      { id: "bq_user_directory_phones", name: "bq_user_directory_phones", note: "searchable, has type" },
+      { id: "bq_rap_paths", name: "bq_rap_paths", note: "15+ fields per path" },
+      { id: "bq_rap_status_history", name: "bq_rap_status_history", note: "audit trail" },
+      { id: "bq_insight_status_history", name: "bq_insight_status_history", note: "audit trail" },
+      { id: "bq_intro_request_targets", name: "bq_intro_request_targets", note: "status tracking" },
+      { id: "bq_comm_closest_colleagues", name: "bq_comm_closest_colleagues", note: "multiple attributes" },
+    ],
+  },
+];
+
+const DIRECT_MAPPINGS = [
+  ["accounts", "bq_accounts"], ["contacts", "bq_contacts"],
+  ["organizations", "bq_organizations"], ["users", "bq_users"],
+  ["best_paths", "bq_best_paths"], ["communication", "bq_communication"],
+  ["rap", "bq_rap"], ["insights", "bq_insights"],
+  ["custom_lists", "bq_custom_lists"], ["user_directory", "bq_user_directory"],
+  ["icps", "bq_icps"],
+];
+
+const CRM_MAPPINGS = [
+  ["account_v2", "bq_crm_accounts"], ["crm_account", "bq_crm_accounts"],
+  ["contact_v2", "bq_crm_contacts"], ["crm_contact", "bq_crm_contacts"],
+  ["lead_v2", "bq_crm_leads"], ["crm_lead", "bq_crm_leads"],
+  ["opportunity_v2", "bq_crm_opportunities"], ["crm_opportunity", "bq_crm_opportunities"],
+  ["owner_v2", "bq_crm_owners"], ["crm_owner", "bq_crm_owners"],
+];
+
+const CHILD_MAPPINGS = [
+  ["contacts", "bq_contact_emails", "emails[]"],
+  ["accounts", "bq_account_funding_rounds", "funding.rounds[]"],
+  ["user_directory", "bq_user_directory_emails", "emails[]"],
+  ["user_directory", "bq_user_directory_phones", "phones[]"],
+  ["rap", "bq_rap_paths", "paths[]"],
+  ["rap", "bq_rap_status_history", "statuses[]"],
+  ["insights", "bq_insight_status_history", "statuses[]"],
+  ["intro_requests", "bq_intro_request_targets", "targets[]"],
+  ["communication", "bq_comm_closest_colleagues", "closestColleagues[]"],
+];
+
+const ALL_MAPPINGS = [
+  ...DIRECT_MAPPINGS.map(([f,t]) => ({ from: f, to: t, type: "direct" })),
+  ...CRM_MAPPINGS.map(([f,t]) => ({ from: f, to: t, type: "crm" })),
+  ...CHILD_MAPPINGS.map(([f,t,l]) => ({ from: f, to: t, type: "child", label: l })),
+];
+
+/* ───────── COMPONENTS ───────── */
+
+function ConnectionLines({ nodeRefs, containerRef, highlightedNode, collapsedGroups }) {
+  const [lines, setLines] = useState([]);
+
+  const visibleNodes = useMemo(() => {
+    const set = new Set();
+    MONGO_GROUPS.forEach(g => {
+      if (!collapsedGroups.has(g.id)) g.collections.forEach(c => set.add(c.id));
+    });
+    BQ_GROUPS.forEach(g => {
+      if (!collapsedGroups.has(g.id)) g.tables.forEach(t => set.add(t.id));
+    });
+    return set;
+  }, [collapsedGroups]);
+
+  const computeLines = useCallback(() => {
+    if (!containerRef.current) return;
+    const cRect = containerRef.current.getBoundingClientRect();
+    const sx = containerRef.current.scrollLeft;
+    const sy = containerRef.current.scrollTop;
+    const newLines = [];
+
+    ALL_MAPPINGS.forEach(m => {
+      if (!visibleNodes.has(m.from) || !visibleNodes.has(m.to)) return;
+      const fromEl = nodeRefs.current[m.from];
+      const toEl = nodeRefs.current[m.to];
+      if (!fromEl || !toEl) return;
+      const fr = fromEl.getBoundingClientRect();
+      const tr = toEl.getBoundingClientRect();
+      newLines.push({
+        x: fr.right - cRect.left + sx,
+        y: fr.top + fr.height / 2 - cRect.top + sy,
+        ex: tr.left - cRect.left + sx,
+        ey: tr.top + tr.height / 2 - cRect.top + sy,
+        type: m.type,
+        label: m.label,
+        from: m.from,
+        to: m.to,
+      });
+    });
+    setLines(newLines);
+  }, [nodeRefs, containerRef, visibleNodes]);
+
+  useEffect(() => {
+    const t = setTimeout(computeLines, 80);
+    window.addEventListener("resize", computeLines);
+    return () => { clearTimeout(t); window.removeEventListener("resize", computeLines); };
+  }, [computeLines]);
+
+  // Recompute when collapsed groups change
+  useEffect(() => { setTimeout(computeLines, 50); }, [collapsedGroups, computeLines]);
+
+  return (
+    <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 1 }}>
+      <defs>
+        <marker id="arr-d" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#64748B" />
+        </marker>
+        <marker id="arr-c" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#EA580C" />
+        </marker>
+        <marker id="arr-ch" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#3B82F6" />
+        </marker>
+        <marker id="arr-d-hi" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#0F172A" />
+        </marker>
+        <marker id="arr-c-hi" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#C2410C" />
+        </marker>
+        <marker id="arr-ch-hi" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#1D4ED8" />
+        </marker>
+      </defs>
+      {lines.map((l, i) => {
+        const isHighlighted = highlightedNode && (l.from === highlightedNode || l.to === highlightedNode);
+        const isDimmed = highlightedNode && !isHighlighted;
+        const dx = l.ex - l.x;
+        const cpx = dx * 0.4;
+        const colors = {
+          direct: { stroke: isDimmed ? "#E2E8F0" : isHighlighted ? "#0F172A" : "#94A3B8", width: isHighlighted ? 2.5 : 1.5 },
+          crm:    { stroke: isDimmed ? "#E2E8F0" : isHighlighted ? "#C2410C" : "#FDBA74", width: isHighlighted ? 2.5 : 1.5 },
+          child:  { stroke: isDimmed ? "#E2E8F0" : isHighlighted ? "#1D4ED8" : "#93C5FD", width: isHighlighted ? 2 : 1.2 },
+        };
+        const c = colors[l.type];
+        const markerSuffix = isHighlighted ? "-hi" : "";
+        const markerKey = l.type === "direct" ? "d" : l.type === "crm" ? "c" : "ch";
+        return (
+          <g key={i} style={{ transition: "opacity 0.2s" }} opacity={isDimmed ? 0.15 : 1}>
+            <path
+              d={`M ${l.x} ${l.y} C ${l.x + cpx} ${l.y}, ${l.ex - cpx} ${l.ey}, ${l.ex} ${l.ey}`}
+              fill="none" stroke={c.stroke} strokeWidth={c.width}
+              strokeDasharray={l.type === "child" ? "6,4" : "none"}
+              markerEnd={`url(#arr-${markerKey}${markerSuffix})`}
+            />
+            {l.label && (
+              <text
+                x={(l.x + l.ex) / 2} y={(l.y + l.ey) / 2 - 7}
+                fill={isDimmed ? "#E2E8F0" : isHighlighted ? "#1D4ED8" : "#3B82F6"}
+                fontSize="9" fontFamily="'JetBrains Mono', monospace" textAnchor="middle"
+                style={{ transition: "fill 0.2s" }}
+              >{l.label}</text>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function NodeBox({ item, nodeRefs, isHighlighted, isDimmed, onHover, onLeave, side, groupColor }) {
+  const isSource = side === "left";
+  return (
+    <div
+      ref={el => { if (el) nodeRefs.current[item.id] = el; }}
+      onMouseEnter={() => onHover(item.id)}
+      onMouseLeave={onLeave}
+      style={{
+        display: "flex", alignItems: "center", gap: 8,
+        padding: "5px 10px", background: isHighlighted ? "#F8FAFC" : "white",
+        borderRadius: 6, border: `1px solid ${isHighlighted ? (groupColor || "#94A3B8") : "#E2E8F0"}`,
+        fontSize: 12, fontFamily: "'JetBrains Mono', 'SF Mono', monospace",
+        position: "relative", zIndex: 2, cursor: "default",
+        transition: "all 0.2s", opacity: isDimmed ? 0.25 : 1,
+        boxShadow: isHighlighted ? `0 0 0 2px ${groupColor || "#94A3B8"}33` : "none",
+        flexWrap: "wrap",
+      }}
+    >
+      <span style={{ fontWeight: 600, color: "#1E293B" }}>{item.name}</span>
+      {item.detail && <span style={{ color: "#94A3B8", fontSize: 10, whiteSpace: "nowrap" }}>{item.detail}</span>}
+      {item.arrays && item.arrays.length > 0 && (
+        <span style={{ color: groupColor || "#64748B", fontSize: 10, opacity: 0.8 }}>{item.arrays.join(", ")}</span>
+      )}
+      {item.note && <span style={{ color: "#64748B", fontSize: 10, fontStyle: "italic" }}>{item.note}</span>}
+    </div>
+  );
+}
+
+function GroupBox({ group, nodeRefs, highlightedNode, connectedNodes, onHover, onLeave, collapsed, onToggle, side }) {
+  const items = group.collections || group.tables || [];
+  return (
+    <div style={{
+      background: group.bg, border: `1px solid ${group.border}`,
+      borderRadius: 8, padding: "8px 10px", borderLeft: `3px solid ${group.color}`,
+      transition: "all 0.2s",
+    }}>
+      <div
+        onClick={onToggle}
+        style={{
+          display: "flex", alignItems: "center", gap: 6, marginBottom: collapsed ? 0 : 6,
+          cursor: "pointer",
+        }}
+      >
+        <span style={{
+          fontSize: 9, color: group.color, transition: "transform 0.2s",
+          display: "inline-block", transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)",
+        }}>▼</span>
+        <span style={{
+          fontSize: 10, fontWeight: 600, color: group.color,
+          textTransform: "uppercase", letterSpacing: "0.05em",
+        }}>{group.label}</span>
+        {group.sublabel && <span style={{ fontSize: 9, color: "#94A3B8" }}>{group.sublabel}</span>}
+        {collapsed && <span style={{ fontSize: 9, color: "#94A3B8", marginLeft: "auto" }}>{items.length}</span>}
+      </div>
+      {!collapsed && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          {items.map(item => (
+            <NodeBox
+              key={item.id} item={item} nodeRefs={nodeRefs} side={side}
+              isHighlighted={highlightedNode === item.id || connectedNodes.has(item.id)}
+              isDimmed={highlightedNode && highlightedNode !== item.id && !connectedNodes.has(item.id)}
+              onHover={onHover} onLeave={onLeave} groupColor={group.color}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ───────── MAIN APP ───────── */
+
+function App() {
+  const containerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const nodeRefs = useRef({});
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0, px: 0, py: 0 });
+  const [highlightedNode, setHighlightedNode] = useState(null);
+  const [collapsedGroups, setCollapsedGroups] = useState(new Set());
+
+  // Compute connected nodes for highlighting
+  const connectedNodes = useMemo(() => {
+    const set = new Set();
+    if (!highlightedNode) return set;
+    ALL_MAPPINGS.forEach(m => {
+      if (m.from === highlightedNode) set.add(m.to);
+      if (m.to === highlightedNode) set.add(m.from);
+    });
+    return set;
+  }, [highlightedNode]);
+
+  // Pan handlers
+  const onMouseDown = useCallback(e => {
+    if (e.target.closest('[data-interactive]')) return;
+    setDragging(true);
+    dragStart.current = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y };
+  }, [pan]);
+
+  const onMouseMove = useCallback(e => {
+    if (!dragging) return;
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    setPan({ x: dragStart.current.px + dx, y: dragStart.current.py + dy });
+  }, [dragging]);
+
+  const onMouseUp = useCallback(() => setDragging(false), []);
+
+  // Zoom handler
+  const onWheel = useCallback(e => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.92 : 1.08;
+    setZoom(z => Math.min(Math.max(z * delta, 0.3), 3));
+  }, []);
+
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (el) el.addEventListener("wheel", onWheel, { passive: false });
+    return () => { if (el) el.removeEventListener("wheel", onWheel); };
+  }, [onWheel]);
+
+  const resetView = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
+  const expandAll = () => setCollapsedGroups(new Set());
+  const collapseAll = () => {
+    const all = new Set();
+    MONGO_GROUPS.forEach(g => all.add(g.id));
+    BQ_GROUPS.forEach(g => all.add(g.id));
+    setCollapsedGroups(all);
+  };
+
+  const toggleGroup = (id) => {
+    setCollapsedGroups(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  return (
+    <div
+      ref={canvasRef}
+      onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onMouseUp}
+      onMouseLeave={onMouseUp}
+      style={{
+        width: "100vw", height: "100vh", overflow: "hidden",
+        cursor: dragging ? "grabbing" : "grab",
+      }}
+    >
+      {/* Toolbar */}
+      <div className="toolbar" data-interactive="true">
+        <button onClick={() => setZoom(z => Math.min(z * 1.2, 3))}>+</button>
+        <button onClick={() => setZoom(z => Math.max(z * 0.8, 0.3))}>−</button>
+        <button onClick={resetView}>Reset</button>
+        <button onClick={expandAll}>Expand All</button>
+        <button onClick={collapseAll}>Collapse All</button>
+      </div>
+
+      <div className="zoom-info">{Math.round(zoom * 100)}%</div>
+
+      <div className="hint">
+        <span><kbd>Scroll</kbd> Zoom</span>
+        <span><kbd>Drag</kbd> Pan</span>
+        <span>Hover node to trace connections</span>
+        <span>Click group header to collapse</span>
+      </div>
+
+      {/* Transformed canvas */}
+      <div style={{
+        transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+        transformOrigin: "center center",
+        transition: dragging ? "none" : "transform 0.1s ease-out",
+        padding: "48px 32px",
+        minWidth: 1200,
+      }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: "#0F172A", letterSpacing: "-0.02em" }}>
+            MongoDB → BigQuery CDC Schema Mapping
+          </h1>
+          <p style={{ fontSize: 13, color: "#64748B", marginTop: 6 }}>
+            Optimized schema: ~34 BigQuery tables from 2 MongoDB databases
+          </p>
+        </div>
+
+        {/* Legend */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>
+          {[
+            { color: "#64748B", label: "Direct mapping", dash: false },
+            { color: "#EA580C", label: "CRM consolidation (2→1)", dash: false },
+            { color: "#3B82F6", label: "Child table extraction", dash: true },
+          ].map(item => (
+            <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#64748B" }}>
+              <svg width="28" height="8">
+                <line x1="0" y1="4" x2="28" y2="4" stroke={item.color} strokeWidth="2" strokeDasharray={item.dash ? "4,3" : "none"} />
+                <polygon points="22,1 28,4 22,7" fill={item.color} />
+              </svg>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Diagram grid */}
+        <div ref={containerRef} style={{
+          position: "relative", display: "grid",
+          gridTemplateColumns: "340px 1fr 400px",
+          gap: 0, maxWidth: 1200, margin: "0 auto", minHeight: 600,
+        }}>
+          <ConnectionLines
+            nodeRefs={nodeRefs} containerRef={containerRef}
+            highlightedNode={highlightedNode} collapsedGroups={collapsedGroups}
+          />
+
+          {/* LEFT: MongoDB */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, zIndex: 2 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: 6,
+                background: "linear-gradient(135deg, #00684A, #00ED64)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+                  <ellipse cx="12" cy="7" rx="7" ry="3.5" opacity="0.9"/>
+                  <path d="M5 7v5c0 1.93 3.13 3.5 7 3.5s7-1.57 7-3.5V7" fill="none" stroke="white" strokeWidth="1.5" opacity="0.7"/>
+                  <path d="M5 12v5c0 1.93 3.13 3.5 7 3.5s7-1.57 7-3.5v-5" fill="none" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+                </svg>
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>MongoDB</div>
+                <div style={{ fontSize: 10, color: "#94A3B8" }}>server-stg + staging_tenant_*</div>
+              </div>
+            </div>
+
+            {MONGO_GROUPS.map(group => (
+              <GroupBox
+                key={group.id} group={group} nodeRefs={nodeRefs} side="left"
+                highlightedNode={highlightedNode} connectedNodes={connectedNodes}
+                onHover={setHighlightedNode} onLeave={() => setHighlightedNode(null)}
+                collapsed={collapsedGroups.has(group.id)}
+                onToggle={() => toggleGroup(group.id)}
+              />
+            ))}
+          </div>
+
+          {/* CENTER: label */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", zIndex: 0 }}>
+            <div style={{
+              writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)",
+              fontSize: 11, fontWeight: 600, color: "#CBD5E1", letterSpacing: "0.15em",
+              textTransform: "uppercase", userSelect: "none",
+            }}>CDC Pipeline</div>
+          </div>
+
+          {/* RIGHT: BigQuery */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, zIndex: 2 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: 6,
+                background: "linear-gradient(135deg, #1A73E8, #4285F4)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+                  <rect x="4" y="4" width="16" height="16" rx="2" opacity="0.3"/>
+                  <rect x="7" y="7" width="4" height="4" rx="0.5"/>
+                  <rect x="13" y="7" width="4" height="4" rx="0.5"/>
+                  <rect x="7" y="13" width="4" height="4" rx="0.5"/>
+                  <rect x="13" y="13" width="4" height="4" rx="0.5"/>
+                </svg>
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>BigQuery</div>
+                <div style={{ fontSize: 10, color: "#94A3B8" }}>~34 optimized tables</div>
+              </div>
+            </div>
+
+            {BQ_GROUPS.map(group => (
+              <GroupBox
+                key={group.id} group={group} nodeRefs={nodeRefs} side="right"
+                highlightedNode={highlightedNode} connectedNodes={connectedNodes}
+                onHover={setHighlightedNode} onLeave={() => setHighlightedNode(null)}
+                collapsed={collapsedGroups.has(group.id)}
+                onToggle={() => toggleGroup(group.id)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Footer stats */}
+        <div style={{
+          display: "flex", justifyContent: "center", gap: 32,
+          marginTop: 28, paddingTop: 16, borderTop: "1px solid #E2E8F0",
+        }}>
+          {[
+            { n: "23", label: "Source collections" },
+            { n: "11", label: "Direct mappings" },
+            { n: "5", label: "CRM consolidations" },
+            { n: "9", label: "Child extractions" },
+            { n: "~34", label: "Target tables" },
+          ].map(s => (
+            <div key={s.label} style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 18, fontWeight: 700, color: "#0F172A" }}>{s.n}</div>
+              <div style={{ fontSize: 10, color: "#94A3B8" }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
